@@ -1,105 +1,100 @@
-# ============================================================
-# 🧠 MODEL FILE — Diabetic Retinopathy Detection (Demo-Ready Version)
-# ============================================================
-
+# Importing all packages 
 import numpy as np
 import matplotlib.pyplot as plt
+from torch.utils import data
 import torch
-from torch import nn, optim
+from torch import nn
+from torch import optim
 import torchvision
-from torchvision import models, transforms
-from PIL import Image
+import torch.nn.functional as F
+from torchvision import datasets, transforms, models
+import torchvision.models as models
+from PIL import Image, ImageFile
+import json
 from torch.optim import lr_scheduler
-import os, random
+import random
+import os
+import sys
 
-print("✅ Imported packages successfully")
-
-# ============================================================
-# Device setup
-# ============================================================
+print('Imported packages')
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(f"🖥️ Using device: {device}")
-
-# ============================================================
-# Model Architecture (for structure only — not used for demo)
-# ============================================================
-model = models.resnet152(weights=None)
+model = models.resnet152(pretrained=False)
 num_ftrs = model.fc.in_features
-out_ftrs = 5  # 5 DR classes
-
-model.fc = nn.Sequential(
-    nn.Linear(num_ftrs, 512),
-    nn.ReLU(),
-    nn.Linear(512, out_ftrs),
-    nn.LogSoftmax(dim=1)
-)
-
+out_ftrs = 5
+model.fc = nn.Sequential(nn.Linear(num_ftrs, 512),nn.ReLU(),nn.Linear(512,out_ftrs),nn.LogSoftmax(dim=1))
 criterion = nn.NLLLoss()
-optimizer = optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=0.00001)
+optimizer = torch.optim.Adam(filter(lambda p:p.requires_grad,model.parameters()) , lr = 0.00001)
+
 scheduler = lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.1)
-model.to(device)
+model.to(device);
+# to unfreeze more layers
 
-# ============================================================
-# Load dummy model safely
-# ============================================================
 
-MODEL_PATH = "classifier.pt"
+for name,child in model.named_children():
+    if name in ['layer2','layer3','layer4','fc']:
+        #print(name + 'is unfrozen')
+        for param in child.parameters():
+            param.requires_grad = True
+    else:
+        #print(name + 'is frozen')
+        for param in child.parameters():
+            param.requires_grad = False
+optimizer = torch.optim.Adam(filter(lambda p:p.requires_grad,model.parameters()) , lr = 0.000001)
+scheduler = lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.1)
 
 def load_model(path):
-    if os.path.exists(path):
-        print(f"✅ Dummy model file found: {path}")
-    else:
-        print(f"⚠️ No trained model found, using demo mode.")
+    checkpoint = torch.load(path, map_location='cpu', weights_only=False)
+    model.load_state_dict(checkpoint['model_state_dict'])
+    
+    # Only load optimizer state if it exists in checkpoint
+    if 'optimizer_state_dict' in checkpoint:
+        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+
     return model
-
-model = load_model(MODEL_PATH)
-
-# ============================================================
-# DR Classes and Transforms
-# ============================================================
-classes = ['No DR', 'Mild', 'Moderate', 'Severe', 'Proliferative DR']
-
-test_transforms = transforms.Compose([
-    transforms.Resize((224, 224)),
-    transforms.ToTensor(),
-    transforms.Normalize(mean=(0.485, 0.456, 0.406),
-                         std=(0.229, 0.224, 0.225))
-])
-
-# ============================================================
-# Always Predicts Some DR (Demo Mode)
-# ============================================================
 def inference(model, file, transform, classes):
-    """
-    Always predicts a DR stage (not No DR).
-    Randomly chooses among Mild–Proliferative DR.
-    """
-    try:
-        img = Image.open(file).convert("RGB")
+    file = Image.open(file).convert('RGB')
+    img = transform(file).unsqueeze(0)
+    print('Transforming your image...')
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model.eval()
+    with torch.no_grad():
+        print('Passing your image to the model....')
+        out = model(img.to(device))
+        ps = torch.exp(out)
+        top_p, top_class = ps.topk(1, dim=1)
+        value = top_class.item()
+        print("Predicted Severity Value: ", value)
+        print("class is: ", classes[value])
+        print('Your image is printed:')
+        return value, classes[value]
+        # plt.imshow(np.array(file))
+        # plt.show()
 
-        # Apply transforms (for completeness)
-        _ = transform(img).unsqueeze(0)
 
-        # Randomly choose between 1–4 (to skip No DR)
-        severity = random.randint(1, 4)
-        predicted_class = classes[severity]
-
-        print(f"🎯 Predicted DR Stage: {predicted_class} (Severity {severity})")
-        return severity, predicted_class
-
-    except Exception as e:
-        print(f"❌ Error during inference: {e}")
-        raise e
-
-# ============================================================
-# Main function (used by blindness.py)
-# ============================================================
+model = load_model('./classifier.pt')
+model.eval()  # Set model to evaluation mode for inference
+model.eval()  # Set model to evaluation mode for inference
+print("Model loaded Succesfully")
+classes = ['No DR', 'Mild', 'Moderate', 'Severe', 'Proliferative DR']
+test_transforms = torchvision.transforms.Compose([
+    torchvision.transforms.ToTensor(),
+    torchvision.transforms.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225))
+])
 def main(path):
-    try:
-        print(f"🔍 Running inference on: {path}")
-        severity, predicted_class = inference(model, path, test_transforms, classes)
-        print(f"✅ Final Prediction: {predicted_class}")
-        return severity, predicted_class
-    except Exception as e:
-        print(f"❌ Error in main(): {e}")
-        raise e
+    x, y = inference(model, path, test_transforms, classes)
+    return x, y
+# if __name__ == '__model__':
+#     # test_dir = '../Desktop/eye'
+#     # folders = os.listdir(test_dir)
+#     # for num in range(len(folders)):
+#     #     path = test_dir+"/"+folders[num]
+#     #     print(path)
+#     #     inference(model, path, test_transforms, classes)
+#     l = sys.argv
+#     if(len(l)>1):
+#         for i in range(1, len(l)):
+#             print(l[i])
+#             path = l[i]
+#             inference(model, path, test_transforms, classes)
+#     else:
+#         print('please provide the exact path of image !')

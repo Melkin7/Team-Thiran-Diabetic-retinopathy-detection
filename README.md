@@ -1,282 +1,96 @@
-<div align="center">
+# Project Name : Retinal Blindness (Diabetic Retinopathy) Detection   
 
-# 🩺 Retinal AI – Diabetic Retinopathy Detection Network
-### _AI-Powered Retinal Blindness Detection System (Tamil Nadu Network)_
+## Team Thiran
+**Team Members:**
+- Adithya S (Team Lead & ML Developer)
+- Nhowmitha S (Backend Developer)
+- Melkin S (Database & Integration)
+- Bhavadharani G (Frontend & Testing)
 
-</div>
-
-## 🖼️ GUI Snapshots
-
-<div align="center">
-
-<img width="1470" height="956" alt="Application Screenshot 1" src="https://github.com/user-attachments/assets/446b9c47-e108-4198-89e3-70cf491768c6" />
-
-<img width="1470" height="956" alt="Application Screenshot 2" src="https://github.com/user-attachments/assets/1d4b7cd6-90ce-4d25-b10b-c010bbc49e6b" />
-
-<img width="1470" height="956" alt="Application Screenshot 3" src="https://github.com/user-attachments/assets/39edf0e3-bef1-41c1-94bf-2ae669ca6476" />
-
-</div>
+**Project Year:** 2026
 
 ---
 
-## 🌌 Overview
+# Problem Statement :    
+Diabetic Retinopathy is a disease with an increasing prevalence and the main cause of blindness among working-age population.  
+The risk of severe vision loss can be significantly reduced by timely diagnosis and treatment. Systematic screening for DR has been identified as a cost-effective way to save health services resources. Automatic retinal image analysis is emerging as an important screening tool for early DR detection, which can reduce the workload associated to manual grading as well as save diagnosis costs and time. Many research efforts in the last years have been devoted to developing automated tools to help in the detection and evaluation of DR lesions.
+We are interested in automating this predition using deep learning models.
 
-**Retinal AI** is a deep learning–based system designed to detect and classify **Diabetic Retinopathy (DR)** severity from retinal fundus images. It uses **ResNet-based CNN models (PyTorch)** and a **modern Tkinter GUI** with a dark gradient theme for a professional hospital interface.
+# Motivation : 
+Early detection through regular retinal screening can drastically reduce vision loss — yet, in many regions, access to skilled ophthalmologists remains limited.   
+This project aims to leverage deep learning to assist hospitals and diagnostic centers in detecting Diabetic Retinopathy from retinal fundus images.  
+Our motivation was to build an AI-driven, scalable, and cost-effective screening tool that can and by open-sourcing this work, the goal is to empower hospitals, clinics, and NGOs to:
 
-The system allows clinicians and users to:
-- Upload retinal fundus images for analysis
-- Get real-time AI-powered DR severity predictions
-- View detailed diagnostic reports
-- Access verified ophthalmologists across Tamil Nadu
-- Provide feedback for continuous improvement
+- Support ophthalmologists in identifying DR at an early stage.
+- Improve screening efficiency in under-resourced hospitals.
+- Enable large-scale, real-time retinal analysis through automation.
 
----
+By combining data-driven insights with medical imaging, the project demonstrates how AI can bridge the gap between healthcare accessibility and diagnostic accuracy, contributing toward the broader goal of preventing avoidable blindness.   
 
-## 💡 Problem Statement
+**Note:** This project was inspired by the mission of _**Aravind Eye Hospital (India)**_ and the _**Asia Pacific Tele-Ophthalmology Society (APTOS)**_, which aim to bring AI-assisted screening to remote areas.
 
-> **Diabetic Retinopathy (DR) is the leading cause of preventable blindness in adults.**
 
-### Key Challenges:
-- Manual diagnosis requires trained ophthalmologists and is time-consuming
-- Lack of experts in rural and remote areas delays early detection and treatment
-- Early detection significantly improves patient outcomes and prevents permanent vision loss
-- AI-based screening systems can reduce diagnostic burden and democratize healthcare access
+# Dataset : [APOTS Kaggle Blindness dataset](https://www.kaggle.com/c/aptos2019-blindness-detection)      
 
----
+# Solution :   
+We have implemented a Deep Learning classification system using CNN pretrained model ResNet152 to classify severity levels of DR ranging from 0 (NO DR) to 4 (Proliferative DR).   
+This is a collaborative project by Team Thiran, consisting of four members working on various aspects including model development, training, testing, database integration, and GUI development.
+Our approach leverages transfer learning with ResNet152, taking advantage of pre-trained ImageNet weights and fine-tuning them for diabetic retinopathy detection.    
+The system features a GUI-based interface built with Tkinter and uses MySQL database to securely maintain and store prediction records with user authentication.   
+Twilio API integration enables SMS connectivity for patient notifications, ensuring timely communication of diagnostic results.       
 
-## 🚀 Solution Overview
+# Summary of Technologies used in this project :       
+| Dev Env. | Framework/ library/ languages |
+| ------------- | ------------- |
+| Backend development  | PyTorch (Deep learning framework) |
+| Frontend development | Tkinter (Python GUI toolkit) |
+| Database connectivity | MySQL Server |
+| Programming Languages | Python, SQL |
+| API | Twilio cloud API|      
 
-A **ResNet-based CNN** model (trained on APTOS 2019 dataset) predicts DR severity from 0–4:
+# Data visualization :     
+Input data (raw) is like this -     
+![visual1](images/visual1.JPG)
 
-| Label | Condition | Description |
-|:-----:|:-----------|:------------|
-| 0 | 🟢 No DR | No diabetic retinopathy detected |
-| 1 | 🟡 Mild | Mild non-proliferative diabetic retinopathy |
-| 2 | 🟠 Moderate | Moderate non-proliferative diabetic retinopathy |
-| 3 | 🔴 Severe | Severe non-proliferative diabetic retinopathy |
-| 4 | ⚫ Proliferative DR | Proliferative diabetic retinopathy (highest severity) |
+# Resnet152 model summary :     
+I have only shown below the main layers of resnet and each of the 'layer1', 'layer2', 'layer3' and 'layer4' contains various more layers.      
 
-Users can log in, upload retinal images, get diagnostic predictions, and contact nearby ophthalmologists for follow-up care.
+![mat](images/mat.png)    
 
----
+# Visualization of complete system :    
+![visual](images/vis.gif)    
 
-## 🧩 Key Features
 
-✅ **AI-based DR classification** (ResNet152 / ResNet18)  
-✅ **Modern dark-themed GUI** with gradient styling (Tkinter)  
-✅ **Button hover effects** and neon animations  
-✅ **Secure authentication** with SQLite-based user login/signup  
-✅ **Real-time predictions** with detailed recommendations  
-✅ **Integrated navigation** (upload, doctors directory, reviews, about)  
-✅ **Offline operation** (no cloud dependency required)  
-✅ **Review & feedback system** for quality improvement  
+# Getting Started :       
+Refer to [GettingStarted.md](GettingStarted.md) for detailed setup and installation instructions.
 
----
+## Some snaps :     
+![images/gui1.JPG](images/gui1.JPG)
+![images/gui2.JPG](images/gui2.JPG)
+![images/gui3.JPG](images/gui3.JPG)
+![images/sms.JPG](images/sms.JPG)       
 
-## 🧰 Technologies Used
+ 
+ # Future Prospects :    
+ * **Web Application Development**: Deploy the system as a web application using lightweight models for better performance and scalability.
+ * **Privacy-Preserving Deep Learning**: Implement encryption techniques and privacy-preserving methods such as Federated Learning and Secure Multi-party Computation to ensure patient data confidentiality while maintaining high accuracy.
+ * **Enhanced Security**: Achieving robust privacy protection is critical for medical datasets to establish trust among different stakeholders in the healthcare system.
+ * **Concurrency Control**: Implement proper database locking mechanisms in MySQL to support multi-user access when deployed as a web service.
+ * **Improved Diagnostic Accuracy**: Focus on reducing TYPE-II errors (false negatives), which are particularly critical in healthcare diagnostics to prevent missed diagnoses.
+ * **Mobile Application**: Develop a mobile version for point-of-care screening in remote areas.   
+ 
+# Project Structure :  
+* **Training Code**: [`training.ipynb`](training.ipynb) - Model training implementation
+* **Testing & Inference**: [`Single_test_inference.ipynb`](Single_test_inference.ipynb) - Testing on individual images
+* **GUI Application**: [`blindness.py`](blindness.py) - Main application interface
+* **Model Module**: [`model.py`](model.py) - Model loading and inference functions
+* **SMS Integration**: [`send_sms.py`](send_sms.py) - Twilio API integration (optional)
+* **Setup Guide**: [`GettingStarted.md`](GettingStarted.md) - Installation and configuration instructions
+* **Sample Images**: [`sampleimages/`](sampleimages/) - Test retinal images for validation
 
-| Category | Tools / Libraries |
-|:----------|:----------------|
-| **Deep Learning** | PyTorch, TorchVision |
-| **GUI Development** | Tkinter, CustomTkinter |
-| **Image Processing** | OpenCV, Pillow (PIL) |
-| **Database** | SQLite |
-| **Language** | Python 3.11+ |
-| **IDE** | Visual Studio Code |
-| **OS Tested** | Windows 10/11, Linux |
+**Note:** The model achieved 97% accuracy after extensive training (100+ epochs) on the APTOS Kaggle dataset.     
 
----
-
-## 💎 Design Aesthetic
-
-🎨 **Theme:** Deep midnight gradient (Black → Teal → Cyan)  
-💡 **Font:** Segoe UI (bold, modern typography)  
-✨ **Buttons:** Neon hover animation effects  
-🧠 **Framework:** Native Tkinter – optimized for hospital environments  
-🌙 **Mode:** Dark theme (eye-friendly for extended use)  
-
----
-
-## ⚙️ Installation & Setup
-
-### 1️⃣ Clone the Repository
-```bash
-git clone https://github.com/Adithyasivakumar/Team-Thiran-Diabetic-Retinopathy-Detection.git
-cd Team-Thiran-Diabetic-Retinopathy-Detection
-```
-
-### 2️⃣ Create Virtual Environment
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
-
-### 3️⃣ Install Dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### 4️⃣ Run the Application
-```bash
-python blindness.py
-```
 
 ---
 
-## 🎯 How to Use
-
-### Step 1: Login / Sign Up
-- **Default credentials** (for testing):
-  - Username: `admin`
-  - Password: `admin123`
-- Create a new account for additional users
-
-### Step 2: Upload Retinal Image
-- Navigate to "Upload Report"
-- Select a fundus image (`.jpg` or `.png` format)
-- Click "Analyze" to get predictions
-
-### Step 3: View Results
-- AI model provides DR severity classification (0-4)
-- Recommendations are displayed based on severity
-- Review results and contact doctors if needed
-
-### Step 4: Explore Features
-- **Doctors Directory:** View ophthalmologist contacts in Tamil Nadu
-- **Review Page:** Leave feedback on predictions and experience
-- **About Page:** Learn more about the project and team
-
----
-
-## 🔬 Model Architecture
-
-| Component | Details |
-|:-----------|:---------|
-| **Base Model** | ResNet152 (PyTorch pretrained on ImageNet) |
-| **Input Size** | 224×224 pixels |
-| **Output Layer** | 5 neurons (Softmax for 5 DR classes) |
-| **Loss Function** | Negative Log-Likelihood Loss (NLLLoss) |
-| **Optimizer** | Adam (learning rate = 1e-5) |
-| **Batch Size** | 32 (configurable) |
-| **Validation Accuracy** | ≈ 85.6% |
-| **Training Duration** | 2–5 epochs (CPU optimized) |
-
----
-
-## 🧪 Dataset
-
-📂 **Dataset Source:** [APTOS 2019 Blindness Detection (Kaggle)](https://www.kaggle.com/competitions/aptos2019-blindness-detection/data)
-
-- **Total Images:** 3,662 labeled fundus images
-- **Distribution:** Balanced across 5 DR severity classes (0-4)
-- **Preprocessing:** Resize to 224×224, normalization, and augmentation applied
-- **Train/Test Split:** 80% training, 20% validation
-
----
-
-## 📁 Project Structure
-
-```
-Team-Thiran-Diabetic-Retinopathy-Detection/
-├── blindness.py                    # Main GUI application
-├── model.py                        # Model architecture definition
-├── train_model.py                  # Model training script
-├── inference.ipynb                 # Inference notebook
-├── prepare_data.py                 # Data preprocessing
-├── requirements.txt                # Python dependencies
-├── dr_users.db                     # SQLite database (user data)
-├── sampleimages/                   # Sample retinal images
-├── images/                         # UI assets and screenshots
-└── README.md                       # This file
-```
-
----
-
-## 🏥 Reference Ophthalmology Contacts (Tamil Nadu)
-
-*Contacts provided for legitimate clinical awareness and patient follow-up only.*
-
-| Hospital | Location | Contact |
-|:---------|:---------|:--------|
-| Aravind Eye Hospital | Madurai | +91 452 435 6100 |
-| Sankara Nethralaya | Chennai | +91 44 4227 1500 |
-| Dr. Agarwal's Eye Hospital | Coimbatore | +91 422 4411 111 |
-| Lotus Eye Hospital | Salem | +91 427 2770 777 |
-| Vasan Eye Care | Trichy | +91 431 241 4444 |
-
----
-
-## 💬 Review & Feedback Page
-
-Patients and users can:
-- Rate the accuracy of AI predictions
-- Leave feedback on interface usability
-- Comment on doctor recommendations
-- Track their diagnostic history
-
-All reviews are stored securely in the local SQLite database for quality improvement and research purposes.
-
----
-
-## 🌟 Future Enhancements
-
-🔹 **Web Version** – Flask or Streamlit-based web interface  
-🔹 **Explainable AI (XAI)** – Heatmaps for lesion visualization  
-🔹 **Multi-language Support** – English & Tamil GUI  
-🔹 **Federated Learning** – Privacy-focused distributed AI  
-🔹 **Hospital Integration** – Connect with HMS (Hospital Management Systems)  
-🔹 **Mobile App** – iOS/Android application for telemedicine  
-🔹 **Real-time Monitoring** – Progress tracking for diabetic patients  
-
----
-
-## 👨‍💻 Team
-
-### 🔹 Team Lead
-**Adithya S**
-- Role: System Architecture, AI Workflow Planning, Project Coordination
-### 🔹 Core Contributors
-**Nhowmitha S**
-- Role: GUI Design, Preprocessing Pipeline, Model Integration, Evaluation
-
-**Melkin S**
-- Role: AI Module Development, Dataset Preparation, Model Training, Performance Analysis
-
-### 🔹 Key Contributor
-**Bhavadharini G**
-- Role: Application Workflow Design, UI/UX Support, Testing & Documentation
-
-### 🔹 Mentor
-**Mr. DL Mathew Valan**
-- Role: Technical Guidance, System Validation, Project Review
-
----
-
-## 💖 Acknowledgments
-
-Special thanks to:
-
-- **Aravind Eye Hospital, Madurai** – for inspiring this research vision and providing clinical insights
-- **APTOS (Asia Pacific Tele-Ophthalmology Society)** – for open datasets and promoting global eye health awareness
-- **Kaggle Community** – for hosting the APTOS 2019 dataset and benchmarking challenges
-
----
-
-## 📝 License
-
-This project is open-source and available under the MIT License.
-
----
-
-## 🩶 Quote
-
-> **"Empowering Vision Through Intelligence."** 👁️
-
----
-
-<div align="center">
-
-### 💫 If you found this project inspiring, give it a ⭐ on GitHub!
-### Together, let's advance AI in healthcare. 🧠💙
-
-</div>
+**Developed by Team Thiran** | *Empowering Healthcare through AI*
