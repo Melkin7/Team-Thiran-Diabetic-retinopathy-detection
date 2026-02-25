@@ -9,7 +9,7 @@ import mysql.connector
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 import mysql.connector as sk
 from model import *
-#from send_sms import *
+from send_sms import *
 print('GUI SYSTEM STARTED...')
 #---------------------------------------------------------------------------------
 
@@ -53,8 +53,8 @@ def OpenFile():
             #print(query)
             connection.commit()
 
-            #------********************Only use when required to send message
-            #send(value, classes)
+            #------********************Send SMS notification to patient
+            send(value, classes)
             #------*********************************************************
             image = Image.open(a)
             # plotting image
