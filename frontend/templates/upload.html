@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}Analyze - Team Thiran DR Detection{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <!-- Upload Card -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-upload"></i> Upload Retinal Image for Analysis
+                </div>
+                <div class="card-body">
+                    <!-- Upload Area -->
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-icon">📷</div>
+                        <div class="upload-text">Drag and drop your image here</div>
+                        <div class="upload-subtext">or click to browse from your computer</div>
+                        <button type="button" class="btn btn-primary btn-sm mt-3" onclick="document.getElementById('fileInput').click()">
+                            Choose File
+                        </button>
+                        <input type="file" id="fileInput" accept="image/*" hidden>
+                    </div>
+
+                    <!-- Progress -->
+                    <div id="progressContainer" class="hidden mt-4">
+                        <div class="loading-text">Processing your image...</div>
+                        <div class="progress" style="height: 6px;">
+                            <div class="progress-bar" id="progressBar" role="progressbar" style="width: 0%"></div>
+                        </div>
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Card (Hidden until analysis) -->
+            <div id="resultsCard" class="card hidden">
+                <div class="card-header">
+                    <i class="fas fa-microscope"></i> Analysis Results
+                </div>
+                <div class="card-body">
+                    <!-- Image Preview -->
+                    <img id="previewImage" class="image-preview" alt="Uploaded image">
+
+                    <!-- Severity Badge -->
+                    <div class="mt-4">
+                        <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 8px;">Detection Result:</div>
+                        <div id="severityBadge" class="severity-badge"></div>
+                    </div>
+
+                    <!-- Result Info -->
+                    <div class="result-info">
+                        <div class="info-item">
+                            <div class="info-label">Severity Level</div>
+                            <div class="info-value" id="severityLevel">-</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Classification</div>
+                            <div class="info-value" id="classification">-</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Confidence</div>
+                            <div class="info-value" id="confidence">-</div>
+                        </div>
+                    </div>
+
+                    <!-- Patient Information -->
+                    <div class="patient-form mt-4">
+                        <h5 class="mb-3">Patient Information (Optional)</h5>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Patient Name</label>
+                                <input type="text" class="form-control" id="patientName" placeholder="Name">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" id="patientEmail" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="patientPhone" placeholder="Phone (with country code)">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Preferred Notification</label>
+                                <select class="form-select" id="notificationMethod">
+                                    <option value="">-- Choose Option --</option>
+                                    <option value="sms">📱 SMS Only</option>
+                                    <option value="whatsapp">💬 WhatsApp Only</option>
+                                    <option value="both">📱💬 Both SMS & WhatsApp</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 25px;">
+                        <button class="btn btn-secondary" onclick="resetAnalysis()">
+                            <i class="fas fa-sync-alt"></i> New Analysis
+                        </button>
+                        <button class="btn btn-success" id="generateReportBtn" onclick="generateReport()">
+                            <i class="fas fa-file-pdf"></i> Generate Report
+                        </button>
+                    </div>
+
+                    <!-- Report Status -->
+                    <div id="reportStatus" class="alert hidden mt-3">
+                        <div class="loading-text" id="reportStatusText">Generating medical report...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error Alert (Hidden until needed) -->
+            <div id="errorAlert" class="alert alert-danger hidden mt-4">
+                <span id="errorText"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Report Verification Modal -->
+<div id="reportModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">📋 Medical Report Preview</h5>
+            <button type="button" class="close-btn" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="reportModalBody">
+            <!-- Report content will be inserted here -->
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+            <button class="btn btn-primary" id="sendReportBtn" onclick="sendReport()">
+                Send Report
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% endblock %}

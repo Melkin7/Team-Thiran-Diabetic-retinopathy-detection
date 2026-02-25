@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Team Thiran DR Detection{% endblock %}
+
+{% block content %}
+<div class="dashboard-header mt-5">
+    <h1>Welcome, {{ username }}! 👋</h1>
+    <p>Diabetic Retinopathy Detection System</p>
+</div>
+
+<div class="container">
+    <div class="row g-4 mb-5">
+        <div class="col-md-3 col-sm-6">
+            <div class="stat-card">
+                <div class="stat-number">97%</div>
+                <div class="stat-label">Accuracy Rate</div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="stat-card">
+                <div class="stat-number">ResNet152</div>
+                <div class="stat-label">Deep Learning Model</div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="stat-card">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Available</div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="stat-card">
+                <div class="stat-number">⚡</div>
+                <div class="stat-label">Real-time Results</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- How It Works -->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-stethoscope"></i> How It Works
+                </div>
+                <div class="card-body">
+                    <ol style="line-height: 2;">
+                        <li><strong>Upload</strong> a retinal fundus image</li>
+                        <li><strong>AI Analysis</strong> uses ResNet152 model</li>
+                        <li><strong>Classify</strong> DR severity level (0-4)</li>
+                        <li><strong>Generate</strong> medical report</li>
+                        <li><strong>Share</strong> via SMS or WhatsApp</li>
+                    </ol>
+                    <a href="{{ url_for('upload') }}" class="btn btn-primary mt-3 w-100">
+                        Start Analysis →
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Severity Levels -->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-chart-bar"></i> DR Severity Levels
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <span class="severity-badge severity-0">Level 0 - No DR</span>
+                        <p class="mt-2 mb-3 text-secondary">Normal retina, no signs of diabetic retinopathy</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="severity-badge severity-1">Level 1 - Mild</span>
+                        <p class="mt-2 mb-3 text-secondary">Microaneurysms present</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="severity-badge severity-2">Level 2 - Moderate</span>
+                        <p class="mt-2 mb-3 text-secondary">Retinal hemorrhages and hard exudates</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="severity-badge severity-3">Level 3 - Severe</span>
+                        <p class="mt-2 mb-3 text-secondary">Significant vascular abnormalities</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="severity-badge severity-4">Level 4 - PDR</span>
+                        <p class="mt-2 mb-3 text-secondary">Proliferative DR - Urgent intervention needed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <div class="row mt-4">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-info-circle"></i> About This System
+                </div>
+                <div class="card-body">
+                    <p>
+                        Team Thiran's Diabetic Retinopathy Detection system uses advanced deep learning to identify signs of DR
+                        from fundus images. The system classifies retinas into 5 severity levels to help healthcare professionals
+                        prioritize treatment and intervention.
+                    </p>
+                    <p>
+                        <strong>Features:</strong>
+                    </p>
+                    <ul>
+                        <li>🤖 97% Accuracy using ResNet152</li>
+                        <li>📱 Real-time automated analysis</li>
+                        <li>📄 Professional medical reports</li>
+                        <li>💬 SMS and WhatsApp notifications</li>
+                        <li>🔒 Secure patient data handling</li>
+                        <li>⚡ Fast results for urgent cases</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
