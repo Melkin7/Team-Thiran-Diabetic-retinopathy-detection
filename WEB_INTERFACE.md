@@ -301,6 +301,22 @@ cat .env | grep DB_
 mysql -h localhost -u dr_user -p
 ```
 
+FLUSH PRIVILEGES;
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'root123';
+CREATE DATABASE diabetic_retinopathy_db;
+CREATE DATABASE BLINDNESS;
+CREATE USER 'dr_user'@'localhost' IDENTIFIED BY 'dr_password_2024';
+GRANT ALL PRIVILEGES ON diabetic_retinopathy_db.* TO 'dr_user'@'localhost';
+GRANT ALL PRIVILEGES ON BLINDNESS.* TO 'dr_user'@'localhost';
+FLUSH PRIVILEGES;
+USE diabetic_retinopathy_db;
+CREATE TABLE THEGREAT (USERNAME VARCHAR(100) PRIMARY KEY, PASSWORD VARCHAR(100), PREDICT VARCHAR(50));
+INSERT INTO THEGREAT (USERNAME, PASSWORD) VALUES ('admin', 'admin123');
+USE BLINDNESS;
+CREATE TABLE THEGREAT (USERNAME VARCHAR(100) PRIMARY KEY, PASSWORD VARCHAR(100), PREDICT VARCHAR(50));
+INSERT INTO THEGREAT (USERNAME, PASSWORD) VALUES ('admin', 'admin123');
+EXIT;
+
 ### Model Not Loading
 ```bash
 # Verify classifier.pt exists

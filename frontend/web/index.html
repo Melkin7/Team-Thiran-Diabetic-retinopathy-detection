@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Team Thiran - Diabetic Retinopathy Detection</title>
+  <meta name="title" content="Team Thiran - Diabetic Retinopathy Detection">
+  <meta name="description" content="AI-powered Diabetic Retinopathy Detection using ResNet152">
+
+  <link rel="shortcut icon" href="/static/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/static/assets/css/style.css">
+
+  <link rel="preload" as="image" href="/static/assets/images/hero-banner.png">
+  <link rel="preload" as="image" href="/static/assets/images/hero-bg.png">
+</head>
+
+<body id="top">
+
+  <!-- PRELOADER -->
+  <div class="preloader" data-preloader>
+    <div class="circle"></div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="header" data-header>
+    <div class="container">
+
+      <a href="#" class="logo">
+        <img src="/static/assets/images/logo.svg" width="136" height="46" alt="Team Thiran">
+      </a>
+
+      <nav class="navbar" data-navbar>
+        <div class="navbar-top">
+          <a href="#" class="logo">
+            <img src="/static/assets/images/logo.svg" width="136" height="46" alt="Team Thiran">
+          </a>
+          <button class="nav-close-btn" aria-label="close menu" data-nav-toggler>
+            <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
+          </button>
+        </div>
+
+        <ul class="navbar-list">
+          <li class="navbar-item">
+            <a href="#top" class="navbar-link title-md">Home</a>
+          </li>
+          <li class="navbar-item">
+            <a href="#about" class="navbar-link title-md">About</a>
+          </li>
+          <li class="navbar-item">
+            <a href="#detection" class="navbar-link title-md">Detection</a>
+          </li>
+          <li class="navbar-item">
+            <a href="#severity" class="navbar-link title-md">DR Stages</a>
+          </li>
+          <li class="navbar-item">
+            <a href="#contact" class="navbar-link title-md">Contact</a>
+          </li>
+        </ul>
+
+        <ul class="social-list">
+          <li><a href="#" class="social-link"><ion-icon name="logo-github"></ion-icon></a></li>
+          <li><a href="#" class="social-link"><ion-icon name="logo-linkedin"></ion-icon></a></li>
+        </ul>
+      </nav>
+
+      <button class="nav-open-btn" aria-label="open menu" data-nav-toggler>
+        <ion-icon name="menu-outline"></ion-icon>
+      </button>
+
+      <a href="#detection" class="btn has-before title-md">Start Detection</a>
+
+      <div class="overlay" data-nav-toggler data-overlay></div>
+
+    </div>
+  </header>
+
+  <main>
+    <article>
+
+      <!-- HERO -->
+      <section class="section hero" style="background-image: url('/static/assets/images/hero-bg.png')" aria-label="home">
+        <div class="container">
+
+          <div class="hero-content">
+            <p class="hero-subtitle has-before" data-reveal="left">Welcome To Team Thiran</p>
+
+            <h1 class="headline-lg hero-title" data-reveal="left">
+              Diabetic <br>
+              Retinopathy <br>
+              Detection.
+            </h1>
+
+            <div class="hero-card" data-reveal="left">
+              <p class="title-lg card-text">
+                AI-powered retinal image analysis using ResNet152
+              </p>
+              <div class="wrapper">
+                <a href="#detection" class="btn has-before" style="width:100%; justify-content:center; margin-top:16px;">
+                  <ion-icon name="eye-outline"></ion-icon>
+                  <span class="span title-md">Analyze Now</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <figure class="hero-banner" data-reveal="right">
+            <img src="/static/assets/images/hero-banner.png" width="590" height="517" loading="eager" alt="hero banner" class="w-100">
+          </figure>
+
+        </div>
+      </section>
+
+      <!-- DR SEVERITY LEVELS (replaces Services) -->
+      <section class="service" aria-label="severity" id="severity">
+        <div class="container">
+          <ul class="service-list">
+
+            <li>
+              <div class="service-card" data-reveal="bottom">
+                <div class="card-icon">
+                  <img src="/static/assets/images/icon-1.png" width="71" height="71" loading="lazy" alt="No DR">
+                </div>
+                <h3 class="headline-sm card-title">Level 0 — No DR</h3>
+                <p class="card-text">No signs of diabetic retinopathy. Routine annual screening recommended.</p>
+                <button class="btn-circle" aria-label="read more">
+                  <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+                </button>
+              </div>
+            </li>
+
+            <li>
+              <div class="service-card" data-reveal="bottom">
+                <div class="card-icon">
+                  <img src="/static/assets/images/icon-2.png" width="71" height="71" loading="lazy" alt="Mild">
+                </div>
+                <h3 class="headline-sm card-title">Level 1 — Mild</h3>
+                <p class="card-text">Mild DR detected. Follow-up appointment within 12 months advised.</p>
+                <button class="btn-circle" aria-label="read more">
+                  <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+                </button>
+              </div>
+            </li>
+
+            <li>
+              <div class="service-card" data-reveal="bottom">
+                <div class="card-icon">
+                  <img src="/static/assets/images/icon-3.png" width="71" height="71" loading="lazy" alt="Moderate">
+                </div>
+                <h3 class="headline-sm card-title">Level 2 — Moderate</h3>
+                <p class="card-text">Moderate DR detected. Ophthalmologist visit within 6 months required.</p>
+                <button class="btn-circle" aria-label="read more">
+                  <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+                </button>
+              </div>
+            </li>
+
+            <li>
+              <div class="service-card" data-reveal="bottom">
+                <div class="card-icon">
+                  <img src="/static/assets/images/icon-4.png" width="71" height="71" loading="lazy" alt="Severe">
+                </div>
+                <h3 class="headline-sm card-title">Level 3 — Severe</h3>
+                <p class="card-text">Severe DR detected. Immediate ophthalmologist referral required urgently.</p>
+                <button class="btn-circle" aria-label="read more">
+                  <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+                </button>
+              </div>
+            </li>
+
+          </ul>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section class="section about" aria-labelledby="about-label" id="about">
+        <div class="container">
+
+          <div class="about-content">
+            <p class="section-subtitle title-lg has-after" id="about-label" data-reveal="left">About Our System</p>
+            <h2 class="headline-md" data-reveal="left">ResNet152 AI Model</h2>
+            <p class="section-text" data-reveal="left">
+              Our system uses a deep learning model based on ResNet152 architecture, trained on the APTOS 2019 Blindness Detection dataset. It classifies retinal fundus images into 5 severity levels of diabetic retinopathy with high accuracy.
+            </p>
+
+            <ul class="tab-list" data-reveal="left">
+              <li><button class="tab-btn active">Model</button></li>
+              <li><button class="tab-btn">Dataset</button></li>
+              <li><button class="tab-btn">Team</button></li>
+            </ul>
+
+            <p class="tab-text" data-reveal="left">
+              ResNet152 is a 152-layer deep residual neural network. Our model fine-tunes the last 3 residual blocks and the fully connected layer on retinal fundus images for DR classification.
+            </p>
+
+            <div class="wrapper">
+              <ul class="about-list">
+                <li class="about-item" data-reveal="left">
+                  <ion-icon name="checkmark-circle-outline"></ion-icon>
+                  <span class="span">ResNet152 Architecture</span>
+                </li>
+                <li class="about-item" data-reveal="left">
+                  <ion-icon name="checkmark-circle-outline"></ion-icon>
+                  <span class="span">APTOS 2019 Dataset</span>
+                </li>
+                <li class="about-item" data-reveal="left">
+                  <ion-icon name="checkmark-circle-outline"></ion-icon>
+                  <span class="span">5-Class DR Classification</span>
+                </li>
+                <li class="about-item" data-reveal="left">
+                  <ion-icon name="checkmark-circle-outline"></ion-icon>
+                  <span class="span">FastAPI Backend</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <figure class="about-banner" data-reveal="right">
+            <img src="/static/assets/images/about-banner.png" width="554" height="678" loading="lazy" alt="about banner" class="w-100">
+          </figure>
+
+        </div>
+      </section>
+
+      <!-- DETECTION TOOL -->
+      <section class="section listing" aria-labelledby="detection-label" id="detection">
+        <div class="container">
+
+          <div style="text-align:center; margin-bottom: 60px;">
+            <p class="section-subtitle title-lg" id="detection-label" data-reveal="bottom">AI Detection Tool</p>
+            <h2 class="headline-md" data-reveal="bottom">Upload Retinal Image</h2>
+            <p data-reveal="bottom" style="margin-top:12px;">Supported formats: JPG, JPEG, PNG</p>
+          </div>
+
+          <!-- Upload Card -->
+          <div class="detection-card" id="upload-card" data-reveal="bottom">
+            <div class="drop-zone" id="drop-zone">
+              <div class="drop-icon">
+                <ion-icon name="cloud-upload-outline"></ion-icon>
+              </div>
+              <p class="title-lg">Drag & drop your retinal image here</p>
+              <p class="or">— or —</p>
+              <button class="btn has-before" id="browse-btn" type="button">
+                <ion-icon name="folder-open-outline"></ion-icon>
+                <span class="span title-md">Browse File</span>
+              </button>
+              <input type="file" id="file-input" accept=".jpg,.jpeg,.png" hidden>
+            </div>
+
+            <div class="preview-container" id="preview-container" style="display:none;">
+              <img id="preview-img" src="" alt="Preview">
+              <p id="file-name" class="title-sm"></p>
+            </div>
+
+            <button class="btn has-before analyze-btn" id="analyze-btn" disabled>
+              <ion-icon name="scan-outline"></ion-icon>
+              <span class="span title-md">Analyze Image</span>
+            </button>
+          </div>
+
+          <!-- Loading Card -->
+          <div class="detection-card" id="loading-card" style="display:none;">
+            <div class="preloader-inline">
+              <div class="circle"></div>
+            </div>
+            <h2 class="headline-sm" style="margin-top:20px;">Analyzing...</h2>
+            <p>Running ResNet152 inference on your image</p>
+          </div>
+
+          <!-- Result Card -->
+          <div class="detection-card" id="result-card" style="display:none;">
+            <h2 class="headline-sm">Diagnosis Result</h2>
+
+            <div class="result-badge" id="result-badge">
+              <span id="result-label"></span>
+            </div>
+
+            <div class="result-details">
+              <div class="detail-row">
+                <span class="detail-key">Severity Level</span>
+                <span class="detail-value" id="result-level"></span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-key">Confidence</span>
+                <span class="detail-value" id="result-confidence"></span>
+              </div>
+
+              <!-- Confidence Bar -->
+              <div class="confidence-bar-wrapper">
+                <div class="confidence-bar" id="confidence-bar"></div>
+              </div>
+
+              <div class="advice-box" id="advice-box">
+                <ion-icon name="information-circle-outline"></ion-icon>
+                <p id="result-advice"></p>
+              </div>
+            </div>
+
+            <button class="btn has-before" id="reset-btn">
+              <ion-icon name="refresh-outline"></ion-icon>
+              <span class="span title-md">Analyze Another Image</span>
+            </button>
+          </div>
+
+          <!-- Error Card -->
+          <div class="detection-card" id="error-card" style="display:none;">
+            <div class="error-icon">
+              <ion-icon name="warning-outline"></ion-icon>
+            </div>
+            <h2 class="headline-sm">Error</h2>
+            <p id="error-message"></p>
+            <button class="btn has-before" id="error-reset-btn">
+              <ion-icon name="refresh-outline"></ion-icon>
+              <span class="span title-md">Try Again</span>
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- DR AWARENESS BLOG -->
+      <section class="section blog" aria-labelledby="blog-label">
+        <div class="container">
+
+          <p class="section-subtitle title-lg text-center" id="blog-label" data-reveal="bottom">Awareness</p>
+          <h2 class="section-title headline-md text-center" data-reveal="bottom">Understanding DR</h2>
+
+          <ul class="grid-list">
+            <li>
+              <div class="blog-card has-before has-after" data-reveal="bottom">
+                <div class="meta-wrapper">
+                  <div class="card-meta">
+                    <ion-icon name="eye-outline"></ion-icon>
+                    <span class="span">Ophthalmology</span>
+                  </div>
+                  <div class="card-meta">
+                    <ion-icon name="medkit-outline"></ion-icon>
+                    <span class="span">Prevention</span>
+                  </div>
+                </div>
+                <h3 class="headline-sm card-title">What is Diabetic Retinopathy?</h3>
+                <time class="title-sm date">Early Detection Saves Vision</time>
+                <p class="card-text">
+                  Diabetic retinopathy is a diabetes complication that affects the eyes. It's caused by damage to the blood vessels of the light-sensitive tissue at the back of the eye.
+                </p>
+                <a href="#detection" class="btn-text title-lg">Start Detection</a>
+              </div>
+            </li>
+
+            <li>
+              <div class="blog-card has-before has-after" data-reveal="bottom">
+                <div class="meta-wrapper">
+                  <div class="card-meta">
+                    <ion-icon name="analytics-outline"></ion-icon>
+                    <span class="span">AI Research</span>
+                  </div>
+                  <div class="card-meta">
+                    <ion-icon name="flask-outline"></ion-icon>
+                    <span class="span">ResNet152</span>
+                  </div>
+                </div>
+                <h3 class="headline-sm card-title">How Our AI Model Works</h3>
+                <time class="title-sm date">Deep Learning Classification</time>
+                <p class="card-text">
+                  Our ResNet152 model analyzes retinal fundus images and classifies them into 5 severity levels using transfer learning trained on the APTOS 2019 dataset.
+                </p>
+                <a href="#about" class="btn-text title-lg">Learn More</a>
+              </div>
+            </li>
+
+            <li>
+              <div class="blog-card has-before has-after" data-reveal="bottom">
+                <div class="meta-wrapper">
+                  <div class="card-meta">
+                    <ion-icon name="shield-checkmark-outline"></ion-icon>
+                    <span class="span">Prevention</span>
+                  </div>
+                  <div class="card-meta">
+                    <ion-icon name="calendar-outline"></ion-icon>
+                    <span class="span">Screening</span>
+                  </div>
+                </div>
+                <h3 class="headline-sm card-title">Importance of Regular Eye Screening</h3>
+                <time class="title-sm date">Annual Check Recommended</time>
+                <p class="card-text">
+                  People with diabetes should have a comprehensive dilated eye exam at least once a year. Early detection and treatment can prevent vision loss.
+                </p>
+                <a href="#detection" class="btn-text title-lg">Detect Now</a>
+              </div>
+            </li>
+          </ul>
+
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer" style="background-image: url('/static/assets/images/footer-bg.png')" id="contact">
+    <div class="container">
+
+      <div class="section footer-top">
+
+        <div class="footer-brand" data-reveal="bottom">
+          <a href="#" class="logo">
+            <img src="/static/assets/images/logo.svg" width="136" height="46" loading="lazy" alt="Team Thiran">
+          </a>
+          <ul class="contact-list has-after">
+            <li class="contact-item">
+              <div class="item-icon">
+                <ion-icon name="mail-open-outline"></ion-icon>
+              </div>
+              <div>
+                <p>Team Thiran : <a href="mailto:teamthiran@drdetection.com" class="contact-link">teamthiran@drdetection.com</a></p>
+                <p>Support : <a href="mailto:support@drdetection.com" class="contact-link">support@drdetection.com</a></p>
+              </div>
+            </li>
+            <li class="contact-item">
+              <div class="item-icon">
+                <ion-icon name="globe-outline"></ion-icon>
+              </div>
+              <div>
+                <p>API Docs : <a href="/docs" class="contact-link">localhost:8000/docs</a></p>
+                <p>Health Check : <a href="/api/v1/health" class="contact-link">/api/v1/health</a></p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-list" data-reveal="bottom">
+          <p class="headline-sm footer-list-title">About</p>
+          <p class="text">AI-powered Diabetic Retinopathy Detection System built by Team Thiran using ResNet152 deep learning model.</p>
+          <address class="address">
+            <ion-icon name="code-slash-outline"></ion-icon>
+            <span class="text">Powered by FastAPI + PyTorch</span>
+          </address>
+        </div>
+
+        <ul class="footer-list" data-reveal="bottom">
+          <li><p class="headline-sm footer-list-title">Quick Links</p></li>
+          <li><a href="#top" class="text footer-link">Home</a></li>
+          <li><a href="#about" class="text footer-link">About Model</a></li>
+          <li><a href="#detection" class="text footer-link">Start Detection</a></li>
+          <li><a href="#severity" class="text footer-link">DR Stages</a></li>
+          <li><a href="/docs" class="text footer-link">API Docs</a></li>
+          <li><a href="/api/v1/health" class="text footer-link">Health Check</a></li>
+        </ul>
+
+        <ul class="footer-list" data-reveal="bottom">
+          <li><p class="headline-sm footer-list-title">DR Severity</p></li>
+          <li><a href="#detection" class="text footer-link">Level 0 — No DR</a></li>
+          <li><a href="#detection" class="text footer-link">Level 1 — Mild</a></li>
+          <li><a href="#detection" class="text footer-link">Level 2 — Moderate</a></li>
+          <li><a href="#detection" class="text footer-link">Level 3 — Severe</a></li>
+          <li><a href="#detection" class="text footer-link">Level 4 — Proliferative DR</a></li>
+        </ul>
+
+        <div class="footer-list" data-reveal="bottom">
+          <p class="headline-sm footer-list-title">Model Info</p>
+          <p class="text">Architecture: ResNet152</p>
+          <p class="text" style="margin-top:8px;">Dataset: APTOS 2019</p>
+          <p class="text" style="margin-top:8px;">Classes: 5 severity levels</p>
+          <p class="text" style="margin-top:8px;">Backend: FastAPI + Uvicorn</p>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p class="text copyright">
+          &copy; Team Thiran 2024 — Diabetic Retinopathy Detection System
+        </p>
+        <ul class="social-list">
+          <li>
+            <a href="#" class="social-link"><ion-icon name="logo-github"></ion-icon></a>
+          </li>
+          <li>
+            <a href="#" class="social-link"><ion-icon name="logo-linkedin"></ion-icon></a>
+          </li>
+          <li>
+            <a href="#" class="social-link"><ion-icon name="logo-instagram"></ion-icon></a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- BACK TO TOP -->
+  <a href="#top" class="back-top-btn" aria-label="back to top" data-back-top-btn>
+    <ion-icon name="chevron-up"></ion-icon>
+  </a>
+
+  <script src="/static/assets/js/script.js"></script>
+  <script src="/static/js/app.js"></script>
+
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+</body>
+</html>
