@@ -266,14 +266,13 @@
 
               </div>
 
-              <!-- Hidden inputs -->
-              <input type="file" id="file-input"   accept=".jpg,.jpeg,.png" hidden>
-              <input type="file" id="camera-input" accept="image/*" capture="environment" hidden>
+              <!-- Hidden file input only -->
+              <input type="file" id="file-input" accept=".jpg,.jpeg,.png" hidden>
 
               <!-- Camera tip -->
               <p class="camera-tip">
                 <ion-icon name="information-circle-outline"></ion-icon>
-                On mobile, "Take Photo" opens your device camera directly
+                Click "Take Photo" to use your webcam or device camera
               </p>
 
             </div>
@@ -324,18 +323,15 @@
               </div>
             </div>
 
-            <!-- Confidence Bar -->
             <div class="confidence-bar-wrapper">
               <div class="confidence-bar" id="confidence-bar"></div>
             </div>
 
-            <!-- Advice Box -->
             <div class="advice-box">
               <ion-icon name="information-circle-outline"></ion-icon>
               <p id="result-advice"></p>
             </div>
 
-            <!-- Action Buttons -->
             <div class="result-actions">
               <button class="btn has-before" id="report-btn">
                 <ion-icon name="document-text-outline"></ion-icon>
@@ -369,7 +365,6 @@
       <div class="modal-overlay" id="report-modal-overlay">
         <div class="modal" id="report-modal">
 
-          <!-- Modal Header -->
           <div class="modal-header">
             <div>
               <h3 class="modal-title">Generate Medical Report</h3>
@@ -380,10 +375,8 @@
             </button>
           </div>
 
-          <!-- Modal Body -->
           <div class="modal-body">
 
-            <!-- Patient Info -->
             <div class="form-section-title">
               <ion-icon name="person-outline"></ion-icon> Patient Information
             </div>
@@ -420,7 +413,6 @@
               </div>
             </div>
 
-            <!-- Clinical Details -->
             <div class="form-section-title" style="margin-top:24px;">
               <ion-icon name="medical-outline"></ion-icon> Clinical Details
             </div>
@@ -461,7 +453,6 @@
                 placeholder="Additional observations, medications, history..."></textarea>
             </div>
 
-            <!-- Report Preview Box -->
             <div class="report-preview-box">
               <div class="preview-header">
                 <ion-icon name="document-text-outline"></ion-icon>
@@ -493,7 +484,6 @@
 
           </div>
 
-          <!-- Modal Footer -->
           <div class="modal-footer">
             <button class="btn-outline" id="modal-cancel-btn">
               <ion-icon name="close-outline"></ion-icon>
@@ -505,17 +495,82 @@
             </button>
           </div>
 
-          <!-- Generating overlay -->
           <div class="modal-generating" id="modal-generating" style="display:none;">
             <div class="preloader-inline">
               <div class="circle"></div>
             </div>
-            <p style="margin-top:16px; font-weight:700; color:var(--midnight-green);">
-              Generating your report...
-            </p>
-            <p style="font-size:1.3rem; color:var(--gray-web); margin-top:6px;">
-              Please wait a moment
-            </p>
+            <p style="margin-top:16px; font-weight:700; color:var(--midnight-green);">Generating your report...</p>
+            <p style="font-size:1.3rem; color:var(--gray-web); margin-top:6px;">Please wait a moment</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CAMERA MODAL -->
+      <div class="camera-modal-overlay" id="camera-modal-overlay">
+        <div class="camera-modal">
+
+          <div class="camera-modal-header">
+            <h3 class="camera-modal-title">
+              <ion-icon name="camera-outline"></ion-icon>
+              Take a Photo
+            </h3>
+            <button class="camera-modal-close" id="camera-modal-close" aria-label="Close camera">
+              <ion-icon name="close-outline"></ion-icon>
+            </button>
+          </div>
+
+          <div class="camera-modal-body">
+
+            <!-- Live viewfinder -->
+            <div class="camera-viewfinder" id="camera-viewfinder">
+              <video id="camera-video" autoplay playsinline muted></video>
+              <div class="camera-overlay-guide"></div>
+            </div>
+
+            <!-- Hidden canvas for snapshot -->
+            <canvas id="camera-canvas" hidden></canvas>
+
+            <!-- Captured preview -->
+            <div class="camera-preview-wrap" id="camera-preview-wrap" style="display:none;">
+              <img id="camera-preview-img" src="" alt="Captured photo">
+              <p class="camera-preview-label">Preview — does this look good?</p>
+            </div>
+
+            <!-- Error -->
+            <div class="camera-error" id="camera-error" style="display:none;">
+              <ion-icon name="warning-outline"></ion-icon>
+              <p id="camera-error-msg">Camera access denied.</p>
+            </div>
+
+          </div>
+
+          <div class="camera-modal-footer">
+
+            <!-- Controls shown while live -->
+            <div id="camera-controls-live" style="display:flex;">
+              <button class="btn-outline" id="camera-switch-btn" type="button">
+                <ion-icon name="camera-reverse-outline"></ion-icon>
+                <span>Switch Camera</span>
+              </button>
+              <button class="btn has-before" id="camera-capture-btn" type="button">
+                <ion-icon name="radio-button-on-outline"></ion-icon>
+                <span class="span">Capture</span>
+              </button>
+            </div>
+
+            <!-- Controls shown after capture -->
+            <div id="camera-controls-preview" style="display:none;">
+              <button class="btn-outline" id="camera-retake-btn" type="button">
+                <ion-icon name="refresh-outline"></ion-icon>
+                <span>Retake</span>
+              </button>
+              <button class="btn has-before" id="camera-use-btn" type="button">
+                <ion-icon name="checkmark-outline"></ion-icon>
+                <span class="span">Use This Photo</span>
+              </button>
+            </div>
+
           </div>
 
         </div>
@@ -642,11 +697,11 @@
 
         <ul class="footer-list" data-reveal="bottom">
           <li><p class="headline-sm footer-list-title">Quick Links</p></li>
-          <li><a href="#top" class="text footer-link">Home</a></li>
-          <li><a href="#about" class="text footer-link">About Model</a></li>
+          <li><a href="#top"       class="text footer-link">Home</a></li>
+          <li><a href="#about"     class="text footer-link">About Model</a></li>
           <li><a href="#detection" class="text footer-link">Start Detection</a></li>
-          <li><a href="#severity" class="text footer-link">DR Stages</a></li>
-          <li><a href="/docs" class="text footer-link">API Docs</a></li>
+          <li><a href="#severity"  class="text footer-link">DR Stages</a></li>
+          <li><a href="/docs"      class="text footer-link">API Docs</a></li>
           <li><a href="/api/v1/health" class="text footer-link">Health Check</a></li>
         </ul>
 
@@ -674,15 +729,9 @@
           &copy; Team Thiran 2024 — Diabetic Retinopathy Detection System
         </p>
         <ul class="social-list">
-          <li>
-            <a href="#" class="social-link"><ion-icon name="logo-github"></ion-icon></a>
-          </li>
-          <li>
-            <a href="#" class="social-link"><ion-icon name="logo-linkedin"></ion-icon></a>
-          </li>
-          <li>
-            <a href="#" class="social-link"><ion-icon name="logo-instagram"></ion-icon></a>
-          </li>
+          <li><a href="#" class="social-link"><ion-icon name="logo-github"></ion-icon></a></li>
+          <li><a href="#" class="social-link"><ion-icon name="logo-linkedin"></ion-icon></a></li>
+          <li><a href="#" class="social-link"><ion-icon name="logo-instagram"></ion-icon></a></li>
         </ul>
       </div>
 
