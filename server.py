@@ -231,6 +231,10 @@ async def generate_report(request: dict):
         sev_label     = result.get("severity_label", "No DR")
         advice        = result.get("advice", "")
 
+        # Normalize confidence to percentage if returned as decimal
+        if confidence <= 1.0:
+            confidence = confidence * 100
+
         risk_map   = ["None","Low","Moderate","High","Critical"]
         action_map = ["Annual Screening","Monitor in 12 months",
                       "Monitor in 6 months","Urgent Referral","Emergency Treatment"]
@@ -258,11 +262,11 @@ async def generate_report(request: dict):
 
         # Result detail table
         res_rows = [
-            [Paragraph("Severity Level",    S["key"]), Paragraph(f"Level {sev_level} — {sev_label}", S["val"])],
-            [Paragraph("Confidence Score",  S["key"]), Paragraph(f"{confidence:.2f}%",               S["val"])],
-            [Paragraph("Risk Category",     S["key"]), Paragraph(risk_map[sev_level],                S["val"])],
-            [Paragraph("Recommended Action",S["key"]), Paragraph(action_map[sev_level],              S["val"])],
-            [Paragraph("AI Model Used",     S["key"]), Paragraph("ResNet152 (Fine-tuned on APTOS 2019)", S["val"])],
+            [Paragraph("Severity Level",     S["key"]), Paragraph(f"Level {sev_level} — {sev_label}", S["val"])],
+            [Paragraph("Confidence Score",   S["key"]), Paragraph(f"{confidence:.2f}%",               S["val"])],
+            [Paragraph("Risk Category",      S["key"]), Paragraph(risk_map[sev_level],                S["val"])],
+            [Paragraph("Recommended Action", S["key"]), Paragraph(action_map[sev_level],              S["val"])],
+            [Paragraph("AI Model Used",      S["key"]), Paragraph("ResNet152 (Fine-tuned on APTOS 2019)", S["val"])],
         ]
         rt = Table(res_rows, colWidths=[4.5*cm, 13*cm])
         rt.setStyle(TableStyle([
@@ -290,19 +294,19 @@ async def generate_report(request: dict):
         elements.append(HRFlowable(width="100%", thickness=1.5, color=TEAL, spaceAfter=10))
 
         scale_header = [
-            Paragraph("Level",   ps("sh",9,"Helvetica-Bold",WHITE,TA_CENTER)),
+            Paragraph("Level",          ps("sh", 9,"Helvetica-Bold",WHITE,TA_CENTER)),
             Paragraph("Classification", ps("sh2",9,"Helvetica-Bold",WHITE,TA_CENTER)),
-            Paragraph("Risk",    ps("sh3",9,"Helvetica-Bold",WHITE,TA_CENTER)),
-            Paragraph("Features",ps("sh4",9,"Helvetica-Bold",WHITE,TA_CENTER)),
-            Paragraph("Action",  ps("sh5",9,"Helvetica-Bold",WHITE,TA_CENTER)),
+            Paragraph("Risk",           ps("sh3",9,"Helvetica-Bold",WHITE,TA_CENTER)),
+            Paragraph("Features",       ps("sh4",9,"Helvetica-Bold",WHITE,TA_CENTER)),
+            Paragraph("Action",         ps("sh5",9,"Helvetica-Bold",WHITE,TA_CENTER)),
         ]
         scale_rows = [
             scale_header,
-            ["0","No DR",          "None",     "No abnormalities",                        "Annual screening"],
-            ["1","Mild NPDR",      "Low",       "Microaneurysms only",                     "Follow-up 12 months"],
-            ["2","Moderate NPDR",  "Moderate", "Hemorrhages, hard exudates",              "Follow-up 6 months"],
-            ["3","Severe NPDR",    "High",     "Venous beading, IRMA",                    "Urgent referral"],
-            ["4","Proliferative",  "Critical", "Neovascularisation, vitreous hemorrhage", "Emergency treatment"],
+            ["0","No DR",         "None",     "No abnormalities",                        "Annual screening"],
+            ["1","Mild NPDR",     "Low",      "Microaneurysms only",                     "Follow-up 12 months"],
+            ["2","Moderate NPDR", "Moderate", "Hemorrhages, hard exudates",              "Follow-up 6 months"],
+            ["3","Severe NPDR",   "High",     "Venous beading, IRMA",                    "Urgent referral"],
+            ["4","Proliferative", "Critical", "Neovascularisation, vitreous hemorrhage", "Emergency treatment"],
         ]
         row_bgs = [DARK_TEAL,
                    colors.HexColor("#F0FFF4"), colors.HexColor("#FEFCE8"),
@@ -329,13 +333,14 @@ async def generate_report(request: dict):
         elements.append(Paragraph("CLINICAL NOTES", S["section"]))
         elements.append(HRFlowable(width="100%", thickness=1.5, color=TEAL, spaceAfter=10))
 
+        # ✅ Typo fixed: "ssprovided" → "provided"
         notes = patient.get("notes") or "No additional clinical notes provided."
         nt = Table([[Paragraph(notes, S["normal"])]], colWidths=[W])
         nt.setStyle(TableStyle([
-            ("BACKGROUND", (0,0), (-1,-1), LIGHT_GRAY),
-            ("PADDING",    (0,0), (-1,-1), 12),
+            ("BACKGROUND",   (0,0), (-1,-1), LIGHT_GRAY),
+            ("PADDING",      (0,0), (-1,-1), 12),
             ("MINROWHEIGHT", (0,0), (-1,-1), 50),
-            ("GRID",       (0,0), (-1,-1), 0.4, colors.HexColor("#DDDDDD")),
+            ("GRID",         (0,0), (-1,-1), 0.4, colors.HexColor("#DDDDDD")),
         ]))
         elements += [nt, Spacer(1, 0.4*cm)]
 
@@ -351,11 +356,11 @@ async def generate_report(request: dict):
         ]]
         sig = Table(sig_data, colWidths=[W/3]*3)
         sig.setStyle(TableStyle([
-            ("BOX",      (0,0), (-1,-1), 0.5, colors.HexColor("#CCCCCC")),
-            ("INNERGRID",(0,0), (-1,-1), 0.5, colors.HexColor("#CCCCCC")),
-            ("PADDING",  (0,0), (-1,-1), 18),
-            ("VALIGN",   (0,0), (-1,-1), "TOP"),
-            ("BACKGROUND",(0,0),(-1,-1), LIGHT_GRAY),
+            ("BOX",       (0,0), (-1,-1), 0.5, colors.HexColor("#CCCCCC")),
+            ("INNERGRID", (0,0), (-1,-1), 0.5, colors.HexColor("#CCCCCC")),
+            ("PADDING",   (0,0), (-1,-1), 18),
+            ("VALIGN",    (0,0), (-1,-1), "TOP"),
+            ("BACKGROUND",(0,0), (-1,-1), LIGHT_GRAY),
         ]))
         elements += [sig, Spacer(1, 0.35*cm)]
 

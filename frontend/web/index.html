@@ -118,7 +118,7 @@
         </div>
       </section>
 
-      <!-- DR SEVERITY LEVELS (replaces Services) -->
+      <!-- DR SEVERITY LEVELS -->
       <section class="service" aria-label="severity" id="severity">
         <div class="container">
           <ul class="service-list">
@@ -242,16 +242,40 @@
           <!-- Upload Card -->
           <div class="detection-card" id="upload-card" data-reveal="bottom">
             <div class="drop-zone" id="drop-zone">
+
               <div class="drop-icon">
                 <ion-icon name="cloud-upload-outline"></ion-icon>
               </div>
               <p class="title-lg">Drag & drop your retinal image here</p>
               <p class="or">— or —</p>
-              <button class="btn has-before" id="browse-btn" type="button">
-                <ion-icon name="folder-open-outline"></ion-icon>
-                <span class="span title-md">Browse File</span>
-              </button>
-              <input type="file" id="file-input" accept=".jpg,.jpeg,.png" hidden>
+
+              <!-- Upload Buttons Row -->
+              <div class="upload-btn-row">
+
+                <!-- Browse File -->
+                <button class="btn has-before" id="browse-btn" type="button">
+                  <ion-icon name="folder-open-outline"></ion-icon>
+                  <span class="span title-md">Browse File</span>
+                </button>
+
+                <!-- Camera Capture -->
+                <button class="btn-camera" id="camera-btn" type="button">
+                  <ion-icon name="camera-outline"></ion-icon>
+                  <span class="span title-md">Take Photo</span>
+                </button>
+
+              </div>
+
+              <!-- Hidden inputs -->
+              <input type="file" id="file-input"   accept=".jpg,.jpeg,.png" hidden>
+              <input type="file" id="camera-input" accept="image/*" capture="environment" hidden>
+
+              <!-- Camera tip -->
+              <p class="camera-tip">
+                <ion-icon name="information-circle-outline"></ion-icon>
+                On mobile, "Take Photo" opens your device camera directly
+              </p>
+
             </div>
 
             <div class="preview-container" id="preview-container" style="display:none;">
@@ -276,37 +300,53 @@
 
           <!-- Result Card -->
           <div class="detection-card" id="result-card" style="display:none;">
-            <h2 class="headline-sm">Diagnosis Result</h2>
 
             <div class="result-badge" id="result-badge">
-              <span id="result-label"></span>
+              <span id="result-label">No DR</span>
             </div>
 
             <div class="result-details">
               <div class="detail-row">
-                <span class="detail-key">Severity Level</span>
-                <span class="detail-value" id="result-level"></span>
+                <span class="detail-key">Classification</span>
+                <span class="detail-value" id="result-level">—</span>
               </div>
               <div class="detail-row">
-                <span class="detail-key">Confidence</span>
-                <span class="detail-value" id="result-confidence"></span>
+                <span class="detail-key">Confidence Score</span>
+                <span class="detail-value" id="result-confidence">—</span>
               </div>
-
-              <!-- Confidence Bar -->
-              <div class="confidence-bar-wrapper">
-                <div class="confidence-bar" id="confidence-bar"></div>
+              <div class="detail-row">
+                <span class="detail-key">Risk Category</span>
+                <span class="detail-value" id="result-risk">—</span>
               </div>
-
-              <div class="advice-box" id="advice-box">
-                <ion-icon name="information-circle-outline"></ion-icon>
-                <p id="result-advice"></p>
+              <div class="detail-row">
+                <span class="detail-key">Recommended Action</span>
+                <span class="detail-value" id="result-action">—</span>
               </div>
             </div>
 
-            <button class="btn has-before" id="reset-btn">
-              <ion-icon name="refresh-outline"></ion-icon>
-              <span class="span title-md">Analyze Another Image</span>
-            </button>
+            <!-- Confidence Bar -->
+            <div class="confidence-bar-wrapper">
+              <div class="confidence-bar" id="confidence-bar"></div>
+            </div>
+
+            <!-- Advice Box -->
+            <div class="advice-box">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <p id="result-advice"></p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="result-actions">
+              <button class="btn has-before" id="report-btn">
+                <ion-icon name="document-text-outline"></ion-icon>
+                <span class="span">Generate Report</span>
+              </button>
+              <button class="btn-outline" id="reset-btn">
+                <ion-icon name="refresh-outline"></ion-icon>
+                <span>Analyze Another</span>
+              </button>
+            </div>
+
           </div>
 
           <!-- Error Card -->
@@ -324,6 +364,162 @@
 
         </div>
       </section>
+
+      <!-- REPORT MODAL -->
+      <div class="modal-overlay" id="report-modal-overlay">
+        <div class="modal" id="report-modal">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <div>
+              <h3 class="modal-title">Generate Medical Report</h3>
+              <p class="modal-subtitle">Fill patient details to generate a professional PDF report</p>
+            </div>
+            <button class="modal-close-btn" id="modal-close-btn" aria-label="Close">
+              <ion-icon name="close-outline"></ion-icon>
+            </button>
+          </div>
+
+          <!-- Modal Body -->
+          <div class="modal-body">
+
+            <!-- Patient Info -->
+            <div class="form-section-title">
+              <ion-icon name="person-outline"></ion-icon> Patient Information
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Full Name <span class="required">*</span></label>
+                <input type="text" class="form-input" id="pt-name" placeholder="e.g. John Smith">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Patient ID</label>
+                <input type="text" class="form-input" id="pt-id" placeholder="e.g. PT-2024-001">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Age <span class="required">*</span></label>
+                <input type="number" class="form-input" id="pt-age" placeholder="e.g. 45" min="1" max="120">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Gender</label>
+                <select class="form-input" id="pt-gender">
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Date of Birth</label>
+                <input type="date" class="form-input" id="pt-dob">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Contact Number</label>
+                <input type="tel" class="form-input" id="pt-contact" placeholder="e.g. +1 234 567 8900">
+              </div>
+            </div>
+
+            <!-- Clinical Details -->
+            <div class="form-section-title" style="margin-top:24px;">
+              <ion-icon name="medical-outline"></ion-icon> Clinical Details
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Diabetes Type</label>
+                <select class="form-input" id="pt-diabetes-type">
+                  <option value="">Select Type</option>
+                  <option value="Type 1">Type 1</option>
+                  <option value="Type 2">Type 2</option>
+                  <option value="Gestational">Gestational</option>
+                  <option value="Pre-diabetes">Pre-diabetes</option>
+                  <option value="Unknown">Unknown</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Diabetes Duration</label>
+                <input type="text" class="form-input" id="pt-diabetes-duration" placeholder="e.g. 5 years">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Referring Doctor</label>
+                <input type="text" class="form-input" id="pt-doctor" placeholder="e.g. Dr. Sarah Johnson">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Eye Examined</label>
+                <select class="form-input" id="pt-eye">
+                  <option value="Both Eyes">Both Eyes</option>
+                  <option value="Right Eye (OD)">Right Eye (OD)</option>
+                  <option value="Left Eye (OS)">Left Eye (OS)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-top:16px;">
+              <label class="form-label">Clinical Notes</label>
+              <textarea class="form-input form-textarea" id="pt-notes"
+                placeholder="Additional observations, medications, history..."></textarea>
+            </div>
+
+            <!-- Report Preview Box -->
+            <div class="report-preview-box">
+              <div class="preview-header">
+                <ion-icon name="document-text-outline"></ion-icon>
+                <span>Diagnosis Summary</span>
+              </div>
+              <div class="preview-grid">
+                <div class="preview-item">
+                  <span class="preview-key">Severity</span>
+                  <span class="preview-val" id="prev-severity">—</span>
+                </div>
+                <div class="preview-item">
+                  <span class="preview-key">Level</span>
+                  <span class="preview-val" id="prev-level">—</span>
+                </div>
+                <div class="preview-item">
+                  <span class="preview-key">Confidence</span>
+                  <span class="preview-val" id="prev-confidence">—</span>
+                </div>
+                <div class="preview-item">
+                  <span class="preview-key">Date</span>
+                  <span class="preview-val" id="prev-date">—</span>
+                </div>
+              </div>
+              <div class="confidence-bar-wrapper" style="margin-block:0 12px;">
+                <div class="confidence-bar" id="prev-conf-bar"></div>
+              </div>
+              <div class="preview-advice" id="prev-advice"></div>
+            </div>
+
+          </div>
+
+          <!-- Modal Footer -->
+          <div class="modal-footer">
+            <button class="btn-outline" id="modal-cancel-btn">
+              <ion-icon name="close-outline"></ion-icon>
+              <span>Cancel</span>
+            </button>
+            <button class="btn has-before" id="generate-report-btn">
+              <ion-icon name="document-text-outline"></ion-icon>
+              <span class="span">Generate & Download PDF</span>
+            </button>
+          </div>
+
+          <!-- Generating overlay -->
+          <div class="modal-generating" id="modal-generating" style="display:none;">
+            <div class="preloader-inline">
+              <div class="circle"></div>
+            </div>
+            <p style="margin-top:16px; font-weight:700; color:var(--midnight-green);">
+              Generating your report...
+            </p>
+            <p style="font-size:1.3rem; color:var(--gray-web); margin-top:6px;">
+              Please wait a moment
+            </p>
+          </div>
+
+        </div>
+      </div>
 
       <!-- DR AWARENESS BLOG -->
       <section class="section blog" aria-labelledby="blog-label">
