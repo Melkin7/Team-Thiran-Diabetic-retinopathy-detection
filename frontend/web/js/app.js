@@ -1,4 +1,7 @@
-// ── DOM Elements ──────────────────────────────────────────────────────────────
+/*-----------------------------------*\
+  #DOM ELEMENTS
+\*-----------------------------------*/
+
 const dropZone         = document.getElementById('drop-zone');
 const fileInput        = document.getElementById('file-input');
 const previewContainer = document.getElementById('preview-container');
@@ -21,11 +24,17 @@ const errorMessage     = document.getElementById('error-message');
 const resetBtn         = document.getElementById('reset-btn');
 const errorResetBtn    = document.getElementById('error-reset-btn');
 
-// ── State ─────────────────────────────────────────────────────────────────────
+/*-----------------------------------*\
+  #STATE
+\*-----------------------------------*/
+
 let selectedFile = null;
 let lastResult   = null;
 
-// ── Severity Maps ─────────────────────────────────────────────────────────────
+/*-----------------------------------*\
+  #SEVERITY MAPS
+\*-----------------------------------*/
+
 const severityLevels = {
   0: 'Level 0 — No DR',
   1: 'Level 1 — Mild',
@@ -34,18 +43,24 @@ const severityLevels = {
   4: 'Level 4 — Proliferative DR'
 };
 
-// ── Show/Hide Cards ───────────────────────────────────────────────────────────
+/*-----------------------------------*\
+  #SHOW / HIDE CARDS
+\*-----------------------------------*/
+
 function showCard(cardId) {
-  ['upload-card','loading-card','result-card','error-card'].forEach(id => {
+  ['upload-card', 'loading-card', 'result-card', 'error-card'].forEach(id => {
     document.getElementById(id).style.display = 'none';
   });
   document.getElementById(cardId).style.display = 'block';
 }
 
-// ── Handle File Selection ─────────────────────────────────────────────────────
+/*-----------------------------------*\
+  #HANDLE FILE
+\*-----------------------------------*/
+
 function handleFile(file) {
   if (!file) return;
-  const allowed = ['image/jpeg','image/jpg','image/png'];
+  const allowed = ['image/jpeg', 'image/jpg', 'image/png'];
   if (!allowed.includes(file.type)) {
     showError('Invalid file type. Please upload a JPG or PNG image.');
     return;
@@ -53,17 +68,27 @@ function handleFile(file) {
   selectedFile = file;
   const reader = new FileReader();
   reader.onload = (e) => {
-    previewImg.src = e.target.result;
-    fileName.textContent = file.name;
+    previewImg.src               = e.target.result;
+    fileName.textContent         = file.name;
     previewContainer.style.display = 'block';
-    analyzeBtn.disabled = false;
+    analyzeBtn.disabled          = false;
   };
   reader.readAsDataURL(file);
 }
 
-// ── Drag & Drop ───────────────────────────────────────────────────────────────
-dropZone.addEventListener('dragover',  (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
-dropZone.addEventListener('dragleave', ()  => { dropZone.classList.remove('dragover'); });
+/*-----------------------------------*\
+  #DRAG & DROP
+\*-----------------------------------*/
+
+dropZone.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  dropZone.classList.add('dragover');
+});
+
+dropZone.addEventListener('dragleave', () => {
+  dropZone.classList.remove('dragover');
+});
+
 dropZone.addEventListener('drop', (e) => {
   e.preventDefault();
   dropZone.classList.remove('dragover');
@@ -77,7 +102,10 @@ document.getElementById('browse-btn').addEventListener('click', (e) => {
 
 fileInput.addEventListener('change', () => handleFile(fileInput.files[0]));
 
-// ── Analyze ───────────────────────────────────────────────────────────────────
+/*-----------------------------------*\
+  #ANALYZE
+\*-----------------------------------*/
+
 analyzeBtn.addEventListener('click', async () => {
   if (!selectedFile) return;
   showCard('loading-card');
@@ -96,11 +124,13 @@ analyzeBtn.addEventListener('click', async () => {
   }
 });
 
-// ── Show Result ───────────────────────────────────────────────────────────────
+/*-----------------------------------*\
+  #SHOW RESULT
+\*-----------------------------------*/
+
 function showResult(data) {
   // Normalize confidence to percentage
   data.confidence = data.confidence <= 1 ? data.confidence * 100 : data.confidence;
-
   lastResult = data;
 
   resultBadge.className        = `result-badge ${data.color}`;
@@ -120,22 +150,27 @@ function showResult(data) {
   showCard('result-card');
 }
 
-// ── Show Error ────────────────────────────────────────────────────────────────
+/*-----------------------------------*\
+  #SHOW ERROR
+\*-----------------------------------*/
+
 function showError(message) {
   errorMessage.textContent = message;
   showCard('error-card');
 }
 
-// ── Reset ─────────────────────────────────────────────────────────────────────
+/*-----------------------------------*\
+  #RESET
+\*-----------------------------------*/
+
 function resetApp() {
-  selectedFile      = null;
-  lastResult        = null;
-  fileInput.value   = '';
-  cameraInput.value = '';       // also reset camera input
-  previewImg.src    = '';
-  fileName.textContent        = '';
+  selectedFile                   = null;
+  lastResult                     = null;
+  fileInput.value                = '';
+  previewImg.src                 = '';
+  fileName.textContent           = '';
   previewContainer.style.display = 'none';
-  analyzeBtn.disabled          = true;
+  analyzeBtn.disabled            = true;
   showCard('upload-card');
 }
 
@@ -154,16 +189,15 @@ const modalGenerating    = document.getElementById('modal-generating');
 
 function openReportModal(result) {
   lastResult = result;
+  const now  = new Date();
 
-  const now = new Date();
   document.getElementById('prev-severity').textContent   = result.severity_label || '—';
   document.getElementById('prev-level').textContent      = `Level ${result.severity_level ?? '—'}`;
   document.getElementById('prev-confidence').textContent = `${result.confidence.toFixed(1)}%`;
   document.getElementById('prev-date').textContent       = now.toLocaleDateString('en-GB',
-    { day:'2-digit', month:'short', year:'numeric' });
+    { day: '2-digit', month: 'short', year: 'numeric' });
   document.getElementById('prev-advice').textContent     = result.advice || '';
 
-  // Animate preview bar
   const prevBar = document.getElementById('prev-conf-bar');
   if (prevBar) setTimeout(() => prevBar.style.width = `${result.confidence.toFixed(1)}%`, 400);
 
@@ -183,9 +217,11 @@ reportModalOverlay?.addEventListener('click', (e) => {
   if (e.target === reportModalOverlay) closeReportModal();
 });
 
-// ── Generate PDF ──────────────────────────────────────────────────────────────
+/*-----------------------------------*\
+  #GENERATE PDF REPORT
+\*-----------------------------------*/
+
 generateReportBtn?.addEventListener('click', async () => {
-  // Validate
   const nameInput = document.getElementById('pt-name');
   const ageInput  = document.getElementById('pt-age');
   nameInput.classList.remove('error');
@@ -228,7 +264,7 @@ generateReportBtn?.addEventListener('click', async () => {
     const url  = URL.createObjectURL(blob);
     const a    = document.createElement('a');
     a.href     = url;
-    a.download = `DR_Report_${patient.name.replace(/\s+/g,'_')}_${new Date().toISOString().split('T')[0]}.pdf`;
+    a.download = `DR_Report_${patient.name.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -243,20 +279,178 @@ generateReportBtn?.addEventListener('click', async () => {
 });
 
 /*-----------------------------------*\
-  #CAMERA CAPTURE
+  #CAMERA — WebRTC (Mac / Desktop / Mobile)
+  Runs inside DOMContentLoaded so all
+  modal elements are guaranteed to exist
 \*-----------------------------------*/
 
-const cameraBtn   = document.getElementById('camera-btn');
-const cameraInput = document.getElementById('camera-input');
+document.addEventListener('DOMContentLoaded', () => {
 
-cameraBtn?.addEventListener('click', (e) => {
-  e.stopPropagation();          // prevent drop-zone click bubbling
-  cameraInput.click();
-});
+  const cameraBtn          = document.getElementById('camera-btn');
+  const cameraModalOverlay = document.getElementById('camera-modal-overlay');
+  const cameraModalClose   = document.getElementById('camera-modal-close');
+  const cameraVideo        = document.getElementById('camera-video');
+  const cameraCanvas       = document.getElementById('camera-canvas');
+  const cameraCaptureBtn   = document.getElementById('camera-capture-btn');
+  const cameraRetakeBtn    = document.getElementById('camera-retake-btn');
+  const cameraUseBtn       = document.getElementById('camera-use-btn');
+  const cameraSwitchBtn    = document.getElementById('camera-switch-btn');
+  const cameraPreviewWrap  = document.getElementById('camera-preview-wrap');
+  const cameraPreviewImg   = document.getElementById('camera-preview-img');
+  const cameraControlsLive = document.getElementById('camera-controls-live');
+  const cameraControlsPrev = document.getElementById('camera-controls-preview');
+  const cameraError        = document.getElementById('camera-error');
+  const cameraErrorMsg     = document.getElementById('camera-error-msg');
 
-cameraInput?.addEventListener('change', () => {
-  if (cameraInput.files[0]) {
-    handleFile(cameraInput.files[0]);   // reuses existing handleFile — untouched
-    cameraInput.value = '';             // reset so same photo can be retaken
+  let cameraStream = null;
+  let capturedBlob = null;
+  let facingMode   = 'user';   // 'user' = front/webcam | 'environment' = rear
+
+  // ── Open camera modal ──────────────────────────────────────────────────────
+  cameraBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+
+    // Must be on localhost or https — give clear message if not
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      alert(
+        'Camera not available.\n\n' +
+        'Chrome only allows camera access on:\n' +
+        '  • http://localhost:8000\n' +
+        '  • https:// domains\n\n' +
+        'Please open: http://localhost:8000\n' +
+        'instead of http://0.0.0.0:8000'
+      );
+      return;
+    }
+
+    openCameraModal();
+  });
+
+  // ── Reset modal state & show ───────────────────────────────────────────────
+  async function openCameraModal() {
+    cameraError.style.display        = 'none';
+    cameraPreviewWrap.style.display  = 'none';
+    cameraControlsLive.style.display = 'flex';
+    cameraControlsPrev.style.display = 'none';
+    capturedBlob = null;
+
+    cameraModalOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    await startCamera();
   }
-});
+
+  // ── Start webcam stream ────────────────────────────────────────────────────
+  async function startCamera() {
+    stopCamera();   // always stop previous stream first
+    try {
+      cameraStream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          facingMode,
+          width:  { ideal: 1280 },
+          height: { ideal: 720  },
+        },
+        audio: false,
+      });
+      cameraVideo.srcObject     = cameraStream;
+      cameraVideo.style.display = 'block';
+      cameraError.style.display = 'none';
+
+    } catch (err) {
+      cameraVideo.style.display = 'none';
+      cameraError.style.display = 'flex';
+
+      if (err.name === 'NotAllowedError') {
+        cameraErrorMsg.textContent =
+          'Camera access denied.\n\nGo to Chrome → Settings → Privacy & Security → Camera and allow this site.';
+      } else if (err.name === 'NotFoundError') {
+        cameraErrorMsg.textContent = 'No camera found on this device.';
+      } else {
+        cameraErrorMsg.textContent = `Camera error: ${err.message}`;
+      }
+    }
+  }
+
+  // ── Stop webcam stream ─────────────────────────────────────────────────────
+  function stopCamera() {
+    if (cameraStream) {
+      cameraStream.getTracks().forEach(track => track.stop());
+      cameraStream = null;
+    }
+    cameraVideo.srcObject = null;
+  }
+
+  // ── Switch front / rear camera ─────────────────────────────────────────────
+  cameraSwitchBtn?.addEventListener('click', async () => {
+    facingMode = facingMode === 'user' ? 'environment' : 'user';
+    await startCamera();
+  });
+
+  // ── Capture snapshot from live video ──────────────────────────────────────
+  cameraCaptureBtn?.addEventListener('click', () => {
+    const canvas  = cameraCanvas;
+    canvas.width  = cameraVideo.videoWidth  || 1280;
+    canvas.height = cameraVideo.videoHeight || 720;
+
+    const ctx = canvas.getContext('2d');
+
+    // Mirror for front camera so photo matches the live preview
+    if (facingMode === 'user') {
+      ctx.translate(canvas.width, 0);
+      ctx.scale(-1, 1);
+    }
+    ctx.drawImage(cameraVideo, 0, 0, canvas.width, canvas.height);
+
+    // Show captured preview
+    cameraPreviewImg.src             = canvas.toDataURL('image/jpeg', 0.95);
+    cameraPreviewWrap.style.display  = 'block';
+    cameraVideo.style.display        = 'none';
+    cameraControlsLive.style.display = 'none';
+    cameraControlsPrev.style.display = 'flex';
+
+    // Store blob for "Use This Photo"
+    canvas.toBlob((blob) => { capturedBlob = blob; }, 'image/jpeg', 0.95);
+  });
+
+  // ── Retake photo ───────────────────────────────────────────────────────────
+  cameraRetakeBtn?.addEventListener('click', () => {
+    capturedBlob                     = null;
+    cameraPreviewWrap.style.display  = 'none';
+    cameraVideo.style.display        = 'block';
+    cameraControlsLive.style.display = 'flex';
+    cameraControlsPrev.style.display = 'none';
+  });
+
+  // ── Use captured photo ─────────────────────────────────────────────────────
+  cameraUseBtn?.addEventListener('click', () => {
+    if (!capturedBlob) return;
+    const file = new File(
+      [capturedBlob],
+      `webcam_${Date.now()}.jpg`,
+      { type: 'image/jpeg' }
+    );
+    closeCameraModal();
+    handleFile(file);   // ✅ reuses existing handleFile — untouched
+  });
+
+  // ── Close camera modal ─────────────────────────────────────────────────────
+  function closeCameraModal() {
+    stopCamera();
+    cameraModalOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+    capturedBlob = null;
+  }
+
+  cameraModalClose?.addEventListener('click', closeCameraModal);
+
+  cameraModalOverlay?.addEventListener('click', (e) => {
+    if (e.target === cameraModalOverlay) closeCameraModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && cameraModalOverlay?.classList.contains('active')) {
+      closeCameraModal();
+    }
+  });
+
+}); // ── end DOMContentLoaded

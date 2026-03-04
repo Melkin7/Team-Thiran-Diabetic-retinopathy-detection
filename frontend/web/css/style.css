@@ -81,7 +81,6 @@
   
   
   
-  
   /*-----------------------------------*\
     #RESET
   \*-----------------------------------*/
@@ -163,8 +162,8 @@
   
   @keyframes shake {
     0%, 100% { transform: translateX(0); }
-    20%, 60% { transform: translateX(-6px); }
-    40%, 80% { transform: translateX(5px); }
+    20%, 60%  { transform: translateX(-6px); }
+    40%, 80%  { transform: translateX(5px); }
   }
   
   @keyframes rotate360 {
@@ -210,9 +209,7 @@
   .headline-sm { font-size: var(--headline-sm); }
   
   .title-lg { font-size: var(--title-lg); }
-  
   .title-md { font-size: var(--title-md); }
-  
   .title-sm { font-size: var(--title-sm); }
   
   .social-list { display: flex; }
@@ -276,17 +273,19 @@
   [data-reveal].revealed { opacity: 1; }
   
   [data-reveal="bottom"] { transform: translateY(50px); }
-  
   [data-reveal="bottom"].revealed { transform: translateY(0); }
   
   [data-reveal="left"] { transform: translateX(-50px); }
-  
   [data-reveal="right"] { transform: translateX(50px); }
   
   [data-reveal="left"].revealed,
   [data-reveal="right"].revealed { transform: translateX(0); }
   
-  .section-subtitle { color: var(--verdigris); font-weight: var(--fw-700); margin-block-end: 8px; }
+  .section-subtitle {
+    color: var(--verdigris);
+    font-weight: var(--fw-700);
+    margin-block-end: 8px;
+  }
   
   
   
@@ -603,7 +602,6 @@
   
   .listing { background-color: var(--alice-blue); }
   
-  /* Detection Card */
   .detection-card {
     max-width: 720px;
     margin-inline: auto;
@@ -615,7 +613,6 @@
     animation: fadeInUp 0.4s ease;
   }
   
-  /* Drop Zone */
   .drop-zone {
     border: 2.5px dashed var(--middle-blue-green_40);
     border-radius: var(--radius-12);
@@ -644,7 +641,6 @@
     margin-block: 16px;
   }
   
-  /* Upload buttons row */
   .upload-btn-row {
     display: flex;
     align-items: center;
@@ -654,7 +650,6 @@
     margin-block: 16px 12px;
   }
   
-  /* Camera tip */
   .camera-tip {
     display: flex;
     align-items: center;
@@ -665,9 +660,12 @@
     margin-top: 8px;
   }
   
-  .camera-tip ion-icon { font-size: 1.5rem; color: var(--verdigris); flex-shrink: 0; }
+  .camera-tip ion-icon {
+    font-size: 1.5rem;
+    color: var(--verdigris);
+    flex-shrink: 0;
+  }
   
-  /* Preview */
   .preview-container {
     margin-top: 24px;
     text-align: center;
@@ -688,7 +686,6 @@
     font-size: var(--title-sm);
   }
   
-  /* Analyze Button */
   .analyze-btn {
     margin-top: 28px;
     margin-inline: auto;
@@ -706,7 +703,6 @@
     pointer-events: auto;
   }
   
-  /* Loading card */
   .preloader-inline {
     display: flex;
     justify-content: center;
@@ -722,7 +718,6 @@
     animation: rotate360 0.8s linear infinite;
   }
   
-  /* Result badge */
   .result-badge {
     display: inline-block;
     padding: 10px 28px;
@@ -740,7 +735,6 @@
   .result-badge.red     { background-color: hsl(0,   84%, 60%); }
   .result-badge.darkred { background-color: hsl(0,   72%, 35%); }
   
-  /* Result details */
   .result-details {
     background-color: var(--alice-blue);
     border-radius: var(--radius-12);
@@ -771,7 +765,6 @@
     font-weight: var(--fw-500);
   }
   
-  /* Confidence bar */
   .confidence-bar-wrapper {
     width: 100%;
     height: 10px;
@@ -789,7 +782,6 @@
     transition: width 1s ease;
   }
   
-  /* Advice box */
   .advice-box {
     display: flex;
     align-items: flex-start;
@@ -815,12 +807,14 @@
     line-height: 1.7;
   }
   
-  /* Error card */
   .error-icon {
     font-size: 5rem;
     color: hsl(0, 84%, 60%);
     margin-bottom: 16px;
   }
+  
+  
+  
   
   /*-----------------------------------*\
     #RESULT ACTIONS
@@ -860,6 +854,9 @@
     color: var(--verdigris);
   }
   
+  
+  
+  
   /*-----------------------------------*\
     #CAMERA BUTTON
   \*-----------------------------------*/
@@ -892,12 +889,11 @@
     transition: var(--transition-1);
   }
   
-  .btn-camera:hover::before  { opacity: 1; }
-  .btn-camera:hover          { transform: translateY(-2px); box-shadow: var(--shadow-3); }
-  .btn-camera ion-icon       { font-size: 2rem; position: relative; z-index: 1; }
-  .btn-camera .span          { position: relative; z-index: 1; }
+  .btn-camera:hover::before { opacity: 1; }
+  .btn-camera:hover         { transform: translateY(-2px); box-shadow: var(--shadow-3); }
+  .btn-camera ion-icon      { font-size: 2rem; position: relative; z-index: 1; }
+  .btn-camera .span         { position: relative; z-index: 1; }
   
-  /* Tooltip — desktop only */
   @media (hover: hover) {
     .btn-camera::after {
       content: "Opens device camera";
@@ -918,6 +914,9 @@
     }
     .btn-camera:hover::after { opacity: 1; }
   }
+  
+  
+  
   
   /*-----------------------------------*\
     #REPORT MODAL
@@ -1074,7 +1073,6 @@
     resize: vertical;
   }
   
-  /* Report preview box */
   .report-preview-box {
     background: linear-gradient(135deg, var(--alice-blue), hsla(182, 100%, 35%, 0.06));
     border: 1.5px solid var(--middle-blue-green_40);
@@ -1140,7 +1138,6 @@
     line-height: 1.6;
   }
   
-  /* Modal footer */
   .modal-footer {
     display: flex;
     justify-content: flex-end;
@@ -1154,7 +1151,6 @@
     z-index: 2;
   }
   
-  /* Generating overlay */
   .modal-generating {
     position: absolute;
     inset: 0;
@@ -1165,6 +1161,180 @@
     justify-content: center;
     border-radius: var(--radius-12);
     z-index: 5;
+  }
+  
+  
+  
+  
+  /*-----------------------------------*\
+    #CAMERA MODAL
+  \*-----------------------------------*/
+  
+  .camera-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: hsla(0, 0%, 0%, 0.88);
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition-2);
+    backdrop-filter: blur(10px);
+  }
+  
+  .camera-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .camera-modal {
+    background-color: var(--white);
+    border-radius: var(--radius-12);
+    width: 100%;
+    max-width: 640px;
+    overflow: hidden;
+    transform: translateY(30px) scale(0.97);
+    transition: var(--transition-2);
+    box-shadow: 0 30px 80px hsla(0, 0%, 0%, 0.5);
+  }
+  
+  .camera-modal-overlay.active .camera-modal {
+    transform: translateY(0) scale(1);
+  }
+  
+  /* Header */
+  .camera-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 24px;
+    background: linear-gradient(135deg, var(--midnight-green), var(--ming));
+  }
+  
+  .camera-modal-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--white);
+    font-size: var(--title-lg);
+    font-family: var(--ff-oswald);
+    font-weight: var(--fw-700);
+  }
+  
+  .camera-modal-title ion-icon { font-size: 2.4rem; }
+  
+  .camera-modal-close {
+    color: var(--white);
+    font-size: 2.8rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: var(--transition-1);
+    line-height: 1;
+  }
+  
+  .camera-modal-close:hover {
+    opacity: 1;
+    transform: rotate(90deg);
+  }
+  
+  /* Body */
+  .camera-modal-body {
+    padding: 20px;
+    background-color: hsl(0, 0%, 10%);
+    min-height: 340px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  
+  /* Viewfinder */
+  .camera-viewfinder {
+    position: relative;
+    width: 100%;
+    border-radius: var(--radius-12);
+    overflow: hidden;
+    background-color: var(--black);
+  }
+  
+  #camera-video {
+    width: 100%;
+    max-height: 360px;
+    object-fit: cover;
+    display: block;
+    transform: scaleX(-1);   /* mirror front camera */
+  }
+  
+  .camera-overlay-guide {
+    position: absolute;
+    inset: 0;
+    border: 2px solid hsla(182, 100%, 35%, 0.55);
+    border-radius: var(--radius-12);
+    pointer-events: none;
+  }
+  
+  /* Preview */
+  .camera-preview-wrap {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .camera-preview-wrap img {
+    width: 100%;
+    max-height: 360px;
+    object-fit: cover;
+    border-radius: var(--radius-12);
+    border: 2px solid var(--verdigris);
+  }
+  
+  .camera-preview-label {
+    color: var(--gainsboro);
+    font-size: var(--title-sm);
+    margin-top: 10px;
+  }
+  
+  /* Error */
+  .camera-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    color: var(--white);
+    text-align: center;
+    padding: 30px;
+  }
+  
+  .camera-error ion-icon {
+    font-size: 4rem;
+    color: hsl(0, 84%, 60%);
+  }
+  
+  .camera-error p {
+    font-size: var(--title-sm);
+    color: var(--gainsboro);
+    line-height: 1.6;
+  }
+  
+  /* Footer */
+  .camera-modal-footer {
+    padding: 16px 24px;
+    background-color: var(--white);
+    border-top: 1px solid var(--gainsboro);
+  }
+  
+  #camera-controls-live,
+  #camera-controls-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
   }
   
   
@@ -1390,10 +1560,6 @@
     #MEDIA QUERIES
   \*-----------------------------------*/
   
-  /**
-   * responsive for larger than 768px screen
-   */
-  
   @media (min-width: 768px) {
   
     :root {
@@ -1461,18 +1627,13 @@
   
     .footer-bottom .social-list { margin-block-start: 0; }
   
-    /* Modal responsive */
-    .form-grid { grid-template-columns: 1fr 1fr; }
+    .form-grid    { grid-template-columns: 1fr 1fr; }
     .preview-grid { grid-template-columns: repeat(4, 1fr); }
   
   }
   
   
   
-  
-  /**
-   * responsive for larger than 992px screen
-   */
   
   @media (min-width: 992px) {
   
@@ -1506,10 +1667,6 @@
   
   
   
-  
-  /**
-   * responsive for larger than 1200px screen
-   */
   
   @media (min-width: 1200px) {
   
@@ -1585,22 +1742,18 @@
   
   
   
-  /**
-   * responsive for mobile screens
-   */
-  
   @media (max-width: 600px) {
   
-    .upload-btn-row   { flex-direction: column; }
+    .upload-btn-row { flex-direction: column; }
   
     .btn-camera,
     .upload-btn-row .btn { width: 100%; justify-content: center; }
   
-    .form-grid     { grid-template-columns: 1fr; }
-    .preview-grid  { grid-template-columns: 1fr 1fr; }
+    .form-grid    { grid-template-columns: 1fr; }
+    .preview-grid { grid-template-columns: 1fr 1fr; }
   
-    .modal-body    { padding: 20px 16px; }
-    .modal-header  { padding: 20px 16px; }
+    .modal-body   { padding: 20px 16px; }
+    .modal-header { padding: 20px 16px; }
   
     .modal-footer {
       flex-direction: column;
@@ -1616,5 +1769,14 @@
     .result-actions { flex-direction: column; align-items: center; }
     .result-actions .btn,
     .result-actions .btn-outline { width: 100%; justify-content: center; }
+  
+    /* Camera modal mobile */
+    #camera-controls-live,
+    #camera-controls-preview { flex-direction: column; }
+  
+    .camera-modal-footer .btn,
+    .camera-modal-footer .btn-outline { width: 100%; justify-content: center; }
+  
+    #camera-video { max-height: 260px; }
   
   }
