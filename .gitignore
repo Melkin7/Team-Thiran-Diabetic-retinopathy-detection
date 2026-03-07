@@ -26,3 +26,13 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Large model weights
+classifier.pt
+*.pt
+*.pth
+*.h5
+
+# Generated PDFs
+reports/*.pdf
+reports/__pycache__/
