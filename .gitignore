@@ -1,17 +1,28 @@
-# Ignore large datasets and temporary files
-dataset/
-reports/generated_reports/
-*.pt
-*.pkl
-*.csv
+# Python cache
 __pycache__/
 *.pyc
 *.pyo
-*.egg-info/
-.Python
-*.log
-*.tmp
-.DS_Store
+*.pyd
+
+# Virtual environment
 venv/
+.venv/
+
+# Environment variables — NEVER commit
 .env
-.vscode/
+
+# Generated PDF reports
+reports/*.pdf
+reports/__pycache__/
+
+# Model weights — too large
+*.pt
+*.pth
+*.h5
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
