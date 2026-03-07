@@ -35,3 +35,7 @@ frontend/app.py
 frontend/blindness.py
 frontend/desktop.png
 frontend/report_verification_dialog.py
+
+# Uploads folder
+uploads/*
+!uploads/.gitkeep
