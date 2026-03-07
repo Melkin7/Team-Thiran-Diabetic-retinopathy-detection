@@ -101,8 +101,3 @@ echo ""
 
 cd "$PROJECT_DIR"
 python main.py
-
-
-
-cd "$PROJECT_DIR"
-python main.py
