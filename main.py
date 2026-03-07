@@ -1,36 +1,26 @@
 #!/usr/bin/env python3
 """
 Team Thiran - Diabetic Retinopathy Detection System
-Main entry point for the GUI application
+Entry point for the FastAPI web application
 
-To run this application:
+To run:
     python main.py
     OR
-    python frontend/blindness.py
+    ./run_web.sh
 """
 
-import sys
+import uvicorn
 import os
 
-# Add project root to Python path
-project_root = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, project_root)
-
-if __name__ == '__main__':
-    print("=" * 60)
-    print("Team Thiran - Diabetic Retinopathy Detection System")
-    print("=" * 60)
-    print("Starting GUI application...")
-    print()
+if __name__ == "__main__":
+    host = os.getenv("HOST", "127.0.0.1")
+    port = int(os.getenv("PORT", "8000"))
     
-    # Import and run the frontend application
-    try:
-        from frontend import blindness
-        # The blindness module will handle running the GUI via if __name__ == '__main__'
-        # This will only execute if blindness.py is run directly
-        print("GUI application initialized.")
-    except Exception as e:
-        print(f"Error starting application: {e}")
-        import traceback
-        traceback.print_exc()
-        sys.exit(1)
+    print("╔══════════════════════════════════════════════════════════════╗")
+    print("║   TEAM THIRAN - Diabetic Retinopathy Detection Web App      ║")
+    print("╚══════════════════════════════════════════════════════════════╝")
+    print(f"🌐 Open your browser: http://{host}:{port}")
+    print(f"📖 API Docs at:       http://{host}:{port}/docs")
+    print("")
+    
+    uvicorn.run("server:app", host=host, port=port, reload=True)

@@ -100,4 +100,9 @@ echo "╚═══════════════════════�
 echo ""
 
 cd "$PROJECT_DIR"
-uvicorn server:app --host 127.0.0.1 --port 8000 --reload
+python main.py
+
+
+
+cd "$PROJECT_DIR"
+python main.py
