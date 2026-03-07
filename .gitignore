@@ -8,14 +8,14 @@ __pycache__/
 venv/
 .venv/
 
-# Environment variables — NEVER commit
+# Environment variables
 .env
 
 # Generated PDF reports
 reports/*.pdf
-reports/__pycache__/
 
-# Model weights — too large
+# Model weights
+classifier.pt
 *.pt
 *.pth
 *.h5
@@ -27,12 +27,5 @@ Thumbs.db
 # Logs
 *.log
 
-# Large model weights
-classifier.pt
-*.pt
-*.pth
-*.h5
-
-# Generated PDFs
-reports/*.pdf
-reports/__pycache__/
+# Backup files
+*.bak
