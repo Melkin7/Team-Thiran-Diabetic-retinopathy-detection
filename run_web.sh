@@ -32,11 +32,18 @@ fi
 # ── Load .env variables ───────────────────────────────────────────
 export $(grep -v '^#' "$PROJECT_DIR/.env" | xargs)
 
-# ── Check model file ──────────────────────────────────────────────
+# ── Check & Download model file ───────────────────────────────────
 echo "🔍 Checking ML model..."
 if [ ! -f "$PROJECT_DIR/classifier.pt" ]; then
-    echo "❌ Model file (classifier.pt) not found!"
-    exit 1
+    echo "⚠️  Model not found! Downloading from Google Drive (~677MB)..."
+    pip install gdown -q
+    gdown "https://drive.google.com/uc?id=17tor-RkVSy2zcDkWsgfUdOtEhmQbZE_S" \
+          -O "$PROJECT_DIR/classifier.pt"
+    if [ ! -f "$PROJECT_DIR/classifier.pt" ]; then
+        echo "❌ Model download failed!"
+        exit 1
+    fi
+    echo "✅ Model downloaded successfully!"
 fi
 echo "✅ Model file found ($(du -h "$PROJECT_DIR/classifier.pt" | cut -f1))"
 
