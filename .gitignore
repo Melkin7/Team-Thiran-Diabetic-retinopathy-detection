@@ -14,11 +14,8 @@ venv/
 # Generated PDF reports
 reports/*.pdf
 
-# Model weights
+# Model weights — hosted on Google Drive
 classifier.pt
-*.pt
-*.pth
-*.h5
 
 # OS files
 .DS_Store
