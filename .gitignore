@@ -39,3 +39,8 @@ frontend/report_verification_dialog.py
 # Uploads folder
 uploads/*
 !uploads/.gitkeep
+
+# Model weights folder
+models/*.pt
+models/*.pth
+models/*.h5

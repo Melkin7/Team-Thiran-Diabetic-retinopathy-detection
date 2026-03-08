@@ -34,18 +34,18 @@ export $(grep -v '^#' "$PROJECT_DIR/.env" | xargs)
 
 # ── Check & Download model file ───────────────────────────────────
 echo "🔍 Checking ML model..."
-if [ ! -f "$PROJECT_DIR/classifier.pt" ]; then
+if [ ! -f "$PROJECT_DIR/models/classifier.pt" ]; then
     echo "⚠️  Model not found! Downloading from Google Drive (~677MB)..."
     pip install gdown -q
     gdown "https://drive.google.com/uc?id=17tor-RkVSy2zcDkWsgfUdOtEhmQbZE_S" \
-          -O "$PROJECT_DIR/classifier.pt"
-    if [ ! -f "$PROJECT_DIR/classifier.pt" ]; then
+          -O "$PROJECT_DIR/models/classifier.pt"
+    if [ ! -f "$PROJECT_DIR/models/classifier.pt" ]; then
         echo "❌ Model download failed!"
         exit 1
     fi
     echo "✅ Model downloaded successfully!"
 fi
-echo "✅ Model file found ($(du -h "$PROJECT_DIR/classifier.pt" | cut -f1))"
+echo "✅ Model file found ($(du -h "$PROJECT_DIR/models/classifier.pt" | cut -f1))"
 
 # ── Check database connection (warn only, don't block) ────────────
 echo ""
