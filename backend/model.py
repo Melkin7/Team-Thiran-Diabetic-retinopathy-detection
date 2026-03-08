@@ -28,7 +28,7 @@ test_transforms = torchvision.transforms.Compose([
 
 # ── Dynamic path resolution ───────────────────────────────────────────────────
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(BASE_DIR, '..', 'classifier.pt')
+MODEL_PATH = os.path.join(BASE_DIR, '..', 'models', 'classifier.pt')
 
 # ── Model Architecture ────────────────────────────────────────────────────────
 def build_model():
