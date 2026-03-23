@@ -15,6 +15,9 @@ models/*.pt
 models/*.pth
 models/*.h5
 
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
 # Logs
 *.log
 
@@ -25,9 +28,6 @@ models/*.h5
 .DS_Store
 Thumbs.db
 
-# Reports and uploads
+# Generated files
 reports/*.pdf
 uploads/*
-
-# Notebooks
-notebooks/
