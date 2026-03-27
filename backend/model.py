@@ -33,14 +33,11 @@ MODEL_PATH = os.path.join(BASE_DIR, '..', 'models', 'classifier.pt')
 
 # ── Model Architecture ────────────────────────────────────────────────────────
 def build_model():
+    """Build ResNet152 model with 5-class output"""
     model = models.resnet152(weights=None)
     num_ftrs = model.fc.in_features
-    model.fc = nn.Sequential(
-        nn.Linear(num_ftrs, 512),
-        nn.ReLU(),
-        nn.Linear(512, 5),
-        nn.LogSoftmax(dim=1)
-    )
+    # Simple Linear layer - matches trained model
+    model.fc = nn.Linear(num_ftrs, 5)
     model.to(device)
 
     for name, child in model.named_children():
@@ -57,9 +54,6 @@ def build_model():
 def load_model(path=MODEL_PATH):
     """Load model from checkpoint - handles multiple formats"""
     model = build_model()
-    optimizer = torch.optim.Adam(
-        filter(lambda p: p.requires_grad, model.parameters()), lr=0.000001
-    )
     
     try:
         checkpoint = torch.load(path, map_location='cpu', weights_only=False)
@@ -69,8 +63,6 @@ def load_model(path=MODEL_PATH):
             # Old format: checkpoint with 'model_state_dict' key
             if 'model_state_dict' in checkpoint:
                 model.load_state_dict(checkpoint['model_state_dict'])
-                if 'optimizer_state_dict' in checkpoint:
-                    optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
             # New format: direct state dict
             else:
                 model.load_state_dict(checkpoint)
@@ -82,34 +74,37 @@ def load_model(path=MODEL_PATH):
         print("✅ Model loaded successfully")
         return model
     
+    except RuntimeError as e:
+        print(f"❌ RuntimeError loading model: {e}")
+        print("   Model architecture mismatch. Check checkpoint format.")
+        raise
     except KeyError as e:
         print(f"❌ KeyError loading model: {e}")
-        print("   Trying alternative checkpoint format...")
-        try:
-            model.load_state_dict(checkpoint)
-            model.eval()
-            print("✅ Model loaded with alternative format")
-            return model
-        except Exception as e2:
-            print(f"❌ Failed to load model: {e2}")
-            raise
+        raise
+    except Exception as e:
+        print(f"❌ Failed to load model: {e}")
+        raise
 
 # ── Inference ─────────────────────────────────────────────────────────────────
 def inference(model, file, transform, classes):
+    """Run inference on a single image"""
     img = Image.open(file).convert('RGB')
     tensor = transform(img).unsqueeze(0).to(device)
     print('Transforming image...')
+    
     with torch.no_grad():
         print('Running inference...')
         out = model(tensor)
-        ps = torch.exp(out)
+        # For Linear output, use softmax instead of exp
+        ps = torch.softmax(out, dim=1)
         top_p, top_class = ps.topk(1, dim=1)
         value = top_class.item()
         confidence = round(top_p.item(), 4)
-        print(f"Predicted: {classes[value]} (confidence: {confidence})")
+        print(f"Predicted: {classes[value]} (confidence: {confidence*100:.2f}%)")
         return value, classes[value], confidence
 
 # ── Main callable (used by FastAPI) ──────────────────────────────────────────
 def main(path, model):
+    """Main inference function"""
     value, label, confidence = inference(model, path, test_transforms, classes)
     return value, label, confidence
