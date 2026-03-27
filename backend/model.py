@@ -19,6 +19,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 classes = ['No DR', 'Mild', 'Moderate', 'Severe', 'Proliferative DR']
 
 test_transforms = torchvision.transforms.Compose([
+    torchvision.transforms.Resize((224, 224)),
     torchvision.transforms.ToTensor(),
     torchvision.transforms.Normalize(
         mean=(0.485, 0.456, 0.406),
@@ -54,17 +55,44 @@ def build_model():
 
 # ── Load Model ────────────────────────────────────────────────────────────────
 def load_model(path=MODEL_PATH):
+    """Load model from checkpoint - handles multiple formats"""
     model = build_model()
     optimizer = torch.optim.Adam(
         filter(lambda p: p.requires_grad, model.parameters()), lr=0.000001
     )
-    checkpoint = torch.load(path, map_location='cpu', weights_only=False)
-    model.load_state_dict(checkpoint['model_state_dict'])
-    if 'optimizer_state_dict' in checkpoint:
-        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
-    model.eval()
-    print("Model loaded successfully")
-    return model
+    
+    try:
+        checkpoint = torch.load(path, map_location='cpu', weights_only=False)
+        
+        # Handle different checkpoint formats
+        if isinstance(checkpoint, dict):
+            # Old format: checkpoint with 'model_state_dict' key
+            if 'model_state_dict' in checkpoint:
+                model.load_state_dict(checkpoint['model_state_dict'])
+                if 'optimizer_state_dict' in checkpoint:
+                    optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+            # New format: direct state dict
+            else:
+                model.load_state_dict(checkpoint)
+        else:
+            # State dict directly
+            model.load_state_dict(checkpoint)
+        
+        model.eval()
+        print("✅ Model loaded successfully")
+        return model
+    
+    except KeyError as e:
+        print(f"❌ KeyError loading model: {e}")
+        print("   Trying alternative checkpoint format...")
+        try:
+            model.load_state_dict(checkpoint)
+            model.eval()
+            print("✅ Model loaded with alternative format")
+            return model
+        except Exception as e2:
+            print(f"❌ Failed to load model: {e2}")
+            raise
 
 # ── Inference ─────────────────────────────────────────────────────────────────
 def inference(model, file, transform, classes):
